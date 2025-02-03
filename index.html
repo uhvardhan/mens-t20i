@@ -101,25 +101,32 @@
                     <div class="reference">(E)</div>
                 </div>
                 <div class="form-group">
-                    <div class="label">Effective playing time lost (in minutes)</div>
+                    <div class="label">Effective playing time lost (C - (D + E))</div>
                     <div class="input-container">
                         <div class="calculated-value" id="effectiveTimeResult">0</div>
                     </div>
                     <div class="reference">(F)</div>
                 </div>
                 <div class="form-group">
-                    <div class="label">Remaining playing time available (in minutes)</div>
+                    <div class="label">Remaining playing time available (A - F)</div>
                     <div class="input-container">
                         <div class="calculated-value" id="remainingTimeResult">0</div>
                     </div>
                     <div class="reference">(G)</div>
                 </div>
                 <div class="form-group">
-                    <div class="label">Remaining overs (minutes ÷ 4.25)</div>
+                    <div class="label">G divided by 4.25 (to 2 decimal places)</div>
                     <div class="input-container">
                         <div class="calculated-value" id="remainingOversResult">0</div>
                     </div>
                     <div class="reference">(H)</div>
+                </div>
+                <div class="form-group">
+                    <div class="label"> Max overs per team [H/2] (round up fractions)</div>
+                    <div class="input-container">
+                        <div class="calculated-value" id="maxOverperteamResult">0</div>
+                    </div>
+                    <div class="reference">(I)</div>
                 </div>
             </div>
         </div>
@@ -143,6 +150,9 @@
 
                 const remainingOvers = remainingPlayingTime / 4.25;
                 document.getElementById('remainingOversResult').textContent = remainingOvers.toFixed(2);
+
+                const maxOversPerTeam = Math.ceil(remainingOvers/2);
+                document.getElementById('maxOverperteamResult').textContent = maxOversPerTeam;
             }
         </script>
     </body>
