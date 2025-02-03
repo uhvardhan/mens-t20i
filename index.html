@@ -197,6 +197,34 @@
                 updateCalculations();
             });
 
+            function convertMinutesToTime(minutes) {
+                const hours = Math.floor(minutes / 60);
+                const mins = minutes % 60;
+                return `${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}`;
+            }
+
+            function convertTimeToMinutes(timeStr) {
+                if (!timeStr) return 0;
+                const [hours, minutes] = timeStr.split(':').map(Number);
+                return hours * 60 + minutes;
+            }
+
+            function calculateCessationTime(recommenceTime, inningsLength, progressTime) {
+                if (!recommenceTime) return '';
+                
+                // Convert recommence time to minutes since midnight
+                const recommenceMinutes = convertTimeToMinutes(recommenceTime);
+                
+                // Calculate remaining time needed
+                const remainingTime = inningsLength - progressTime;
+                
+                // Add remaining time to recommence time
+                const cessationMinutes = recommenceMinutes + remainingTime;
+                
+                // Convert back to HH:mm format
+                return convertMinutesToTime(cessationMinutes);
+            }
+
             function calculatePowerplayOvers(oversPerInnings) {
                 if (oversPerInnings < 5) {
                     return "Minimum 5 overs.";
@@ -292,9 +320,14 @@
 
                 const recommencementTime = Number(document.getElementById('').value)
 
-                const firstInningsCessationTime = recommencementTime + (inningsLength - progressTime)
-                document.getElementById('reschduledFirstCessationTime').textContent = firstInningsCessationTime
+                // Calculate cessation time
+                const cessationTime = calculateCessationTime(recommenceTime, inningsLength, progressTime);
+                document.getElementById('reschduledFirstCessationTime').textContent = cessationTime;
             }
+
+            // Add event listener for time input
+            document.getElementById('recommenceTime').addEventListener('change', updateCalculations);
+            
         </script>
     </body>
 </html>
