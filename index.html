@@ -110,7 +110,9 @@
 
         <script>
             // Calculate on page load to initialize the display
-            window.onload = calculateEffectiveTime;
+            document.addEventListener('DOMContentLoaded', function() {
+                calculateEffectiveTime();
+            });
 
             function calculateEffectiveTime() {
                 const lostPlayingTime = Number(document.getElementById('lostPlayingTime').value) || 0;
