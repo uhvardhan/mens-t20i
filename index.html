@@ -3,18 +3,16 @@
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>
-            Webpage for cricket umpires.
+            Webpage for cricket umpires
         </title>
         <style>
             body {background-color:black;}
             h1 {color:red;}
-
             .content {
                 max-width: 720px;
                 margin: auto;
                 padding: 20px;
             }
-
             .calculator {
                 background-color: #1a1a1a;
                 padding: 20px;
@@ -42,65 +40,43 @@
             input[type="checkbox"] {
                 margin-right: 8px;
             }
-            button {
-                background-color: #cc0000;
-                color: white;
-                padding: 10px 20px;
-                border: none;
-                border-radius: 4px;
-                cursor: pointer;
+            .calculated-value {
                 width: 100%;
-                margin-top: 10px;
-            }
-            button:hover {
-                background-color: #ff0000;
-            }
-            #results {
-                margin-top: 20px;
-                padding: 15px;
+                padding: 8px;
                 background-color: #2a2a2a;
+                color: white;
                 border-radius: 4px;
-                display: none;
-            }
-            .result-item {
-                margin-bottom: 8px;
-                line-height: 1.4;
+                box-sizing: border-box;
+                border: 1px solid #333;
             }
         </style>
     </head>
-
     <body>
         <div class="content">
             <h1>
                 Appendix E - Ground-Weather-Light Calculations
             </h1>
-
             <div class="calculator">
                 <div class="form-group">
                     <label>Net playing time available at start of the match (in minutes)</label>
-                    <input type="number" id="netPlayingTime" min="0">
+                    <input type="number" id="netPlayingTime" min="0" onchange="calculateEffectiveTime()" onkeyup="calculateEffectiveTime()">
                 </div>
-
                 <div class="form-group">
-                    <label>Time innings in progres (in minutes)</label>
-                    <input type="number" id="firstInningsProgressTime" min="0">
+                    <label>Time innings in progress (in minutes)</label>
+                    <input type="number" id="firstInningsProgressTime" min="0" onchange="calculateEffectiveTime()" onkeyup="calculateEffectiveTime()">
                 </div>
-
                 <div class="form-group">
                     <label>Playing time lost (in minutes)</label>
-                    <input type="number" id="lostPlayingTime" min="0">
+                    <input type="number" id="lostPlayingTime" min="0" onchange="calculateEffectiveTime()" onkeyup="calculateEffectiveTime()">
                 </div>
-
                 <div class="form-group">
                     <label>Extra time available (in minutes)</label>
-                    <input type="number" id="extraTime" min="0">
+                    <input type="number" id="extraTime" min="0" onchange="calculateEffectiveTime()" onkeyup="calculateEffectiveTime()">
                 </div>
-
                 <div class="form-group">
                     <label>Time made up from reduced interval (in minutes)</label>
-                    <input type="number" id="madeUpTime" min="0">
+                    <input type="number" id="madeUpTime" min="0" onchange="calculateEffectiveTime()" onkeyup="calculateEffectiveTime()">
                 </div>
-
                 <div class="form-group">
                     <label>Effective playing time lost (in minutes)</label>
                     <div class="calculated-value" id="effectiveTimeResult">0</div>
@@ -124,6 +100,5 @@
                 document.getElementById('effectiveTimeResult').textContent = effectivePlayingTimeLost;
             }
         </script>
-
     </body>
 </html>
