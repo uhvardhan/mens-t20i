@@ -129,6 +129,12 @@
                     </div>
                     <div class="reference">(I)</div>
                 </div>
+                <div class="form-group">
+                    <div class="label"> Maximum overs per bowler [I/5]</div>
+                    <div class="input-container" style="width:150px;">
+                        <div class="calculated-value" id="maxOverperBowlerResult" style="text-align: left;">0</div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -136,6 +142,34 @@
             document.addEventListener('DOMContentLoaded', function() {
                 updateCalculations();
             });
+
+            function calculateOversDistribution(oversPerInnings) {
+                if (oversPerInnings < 5) {
+                    return "Minimum 5 overs required";
+                }
+                
+                if (oversPerInnings >= 10) {
+                    // Calculate base overs and extra overs
+                    const baseOvers = Math.floor(oversPerInnings / 5);
+                    const extraOvers = oversPerInnings % 5;
+                    // Create array of 5 bowlers with base overs
+                    return Array(5).fill(0).map((_, index) => 
+                        index < extraOvers ? baseOvers + 1 : baseOvers
+                    );
+                } else if (oversPerInnings >= 5 && oversPerInnings <= 9) {
+                    const maxOversPerBowler = 2;
+                    // Calculate number of bowlers needed
+                    const numBowlers = Math.ceil(oversPerInnings / maxOversPerBowler);
+                    // Start with all bowlers having 1 over
+                    const distribution = Array(numBowlers).fill(1);
+                    // Distribute remaining overs
+                    const remainingOvers = oversPerInnings - numBowlers;
+                    for (let i = 0; i < remainingOvers; i++) {
+                        distribution[i] += 1;
+                    }
+                    return distribution;
+                }
+            }
 
             function updateCalculations() {
                 const lostPlayingTime = Number(document.getElementById('lostPlayingTime').value) || 0;
@@ -154,6 +188,14 @@
 
                 const maxOversPerTeam = Math.ceil(remainingOvers/2);
                 document.getElementById('maxOverperteamResult').textContent = maxOversPerTeam;
+
+                const oversDistribution = calculateOversDistribution(maxOversPerTeam);
+                if (typeof oversDistribution === 'string') {
+                    document.getElementById('maxOverperBowlerResult').textContent = oversDistribution;
+                } else {
+                    const distributionText = oversDistribution.join(',');
+                    document.getElementById('maxOverperBowlerResult').textContent = distributionText;
+                }
             }
         </script>
     </body>
