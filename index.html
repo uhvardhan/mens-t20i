@@ -77,159 +77,31 @@
 
             <div class="calculator">
                 <div class="form-group">
-                    <label>Net playing time (minutes)</label>
+                    <label>Net playing time available at start of the match (in minutes)</label>
                     <input type="number" id="netPlayingTime" min="0">
                 </div>
 
                 <div class="form-group">
-                    <label>First innings progress time (minutes)</label>
+                    <label>Time innings in progres (in minutes)</label>
                     <input type="number" id="firstInningsProgressTime" min="0">
                 </div>
 
                 <div class="form-group">
-                    <label>Lost playing time (minutes)</label>
+                    <label>Playing time lost (in minutes)</label>
                     <input type="number" id="lostPlayingTime" min="0">
                 </div>
 
                 <div class="form-group">
-                    <label>Extra time (minutes)</label>
+                    <label>Extra time available (in minutes)</label>
                     <input type="number" id="extraTime" min="0">
                 </div>
 
                 <div class="form-group">
-                    <label>Made up time (minutes)</label>
+                    <label>Time made up from reduced interval (in minutes)</label>
                     <input type="number" id="madeUpTime" min="0">
                 </div>
-
-                <div class="form-group">
-                    <label>Recommence time (HH:MM)</label>
-                    <input type="time" id="recommenceTime">
-                </div>
-
-                <div class="form-group">
-                    <label>
-                        <input type="checkbox" id="timeouts" checked>
-                        Enable timeouts
-                    </label>
-                </div>
-
-                <button onclick="calculateResults()">Calculate</button>
-
-                <div id="results"></div>
             </div>
         </div>
 
-        <script>
-            function maxOverPerBowler(oversPerInnings) {
-                if (oversPerInnings >= 10) {
-                    const baseOvers = Math.floor(oversPerInnings / 5);
-                    const extraOvers = oversPerInnings % 5;
-                    return Array(5).fill(0).map((_, i) => i < extraOvers ? baseOvers + 1 : baseOvers);
-                } else if (oversPerInnings >= 5 && oversPerInnings <= 9) {
-                    const maxOversPerBowler = 2;
-                    const numBowlers = Math.floor((oversPerInnings + maxOversPerBowler - 1) / maxOversPerBowler);
-                    const distribution = Array(numBowlers).fill(1);
-                    const remainingOvers = oversPerInnings - numBowlers;
-                    for (let i = 0; i < remainingOvers; i++) {
-                        distribution[i] += 1;
-                    }
-                    return distribution;
-                }
-                throw new Error("Innings must have at least 5 overs.");
-            }
-
-            function powerplayOvers(oversPerInnings) {
-                if (oversPerInnings >= 5 && oversPerInnings <= 8) {
-                    return [2, oversPerInnings - 2];
-                } else if (oversPerInnings >= 9 && oversPerInnings <= 11) {
-                    return [3, oversPerInnings - 3];
-                } else if (oversPerInnings >= 12 && oversPerInnings <= 14) {
-                    return [4, oversPerInnings - 4];
-                } else if (oversPerInnings >= 15 && oversPerInnings <= 18) {
-                    return [5, oversPerInnings - 5];
-                } else if (oversPerInnings >= 19 && oversPerInnings <= 20) {
-                    return [6, oversPerInnings - 6];
-                }
-                throw new Error("Innings must have at least 5 overs.");
-            }
-
-            function fieldingTimeouts(oversPerInnings) {
-                if (oversPerInnings === 20 || oversPerInnings === 19) {
-                    return [6, 9];
-                } else if (oversPerInnings === 18 || oversPerInnings === 17) {
-                    return [5, 8];
-                } else if (oversPerInnings === 16) {
-                    return [5, 7];
-                } else if (oversPerInnings === 15) {
-                    return [5, 6];
-                }
-                throw new Error("Since the innings is less than or equal to 14 overs, timeouts are not applicable.");
-            }
-
-            function battingTimeouts(oversPerInnings) {
-                if (oversPerInnings === 20 || oversPerInnings === 19) {
-                    return [13, 16];
-                } else if (oversPerInnings === 18) {
-                    return [12, 15];
-                } else if (oversPerInnings === 17) {
-                    return [12, 14];
-                } else if (oversPerInnings === 16) {
-                    return [11, 13];
-                } else if (oversPerInnings === 15) {
-                    return [10, 12];
-                }
-                throw new Error("Since the innings is less than or equal to 14 overs, timeouts are not applicable.");
-            }
-
-            function calculateResults() {
-                try {
-                    const netPlayingTime = Number(document.getElementById('netPlayingTime').value);
-                    const firstInningsProgressTime = Number(document.getElementById('firstInningsProgressTime').value);
-                    const lostPlayingTime = Number(document.getElementById('lostPlayingTime').value);
-                    const extraTime = Number(document.getElementById('extraTime').value);
-                    const madeUpTime = Number(document.getElementById('madeUpTime').value);
-                    const timeouts = document.getElementById('timeouts').checked;
-
-                    if (!netPlayingTime || !firstInningsProgressTime || !lostPlayingTime || !extraTime || !madeUpTime) {
-                        alert('Please fill in all required fields');
-                        return;
-                    }
-
-                    const effectivePlayingTimeLost = lostPlayingTime - (extraTime + madeUpTime);
-                    const remainingTime = netPlayingTime - effectivePlayingTimeLost;
-                    const dividedByOverRate = remainingTime / 4.25;
-                    const maxOversPerTeam = Math.ceil(dividedByOverRate / 2);
-                    const lengthInnings = Math.ceil(maxOversPerTeam * 4.25);
-
-                    let resultsHTML = `
-                        <div class="result-item">Effective playing time lost: ${effectivePlayingTimeLost} minutes</div>
-                        <div class="result-item">Remaining playing time: ${remainingTime} minutes</div>
-                        <div class="result-item">Maximum overs: ${dividedByOverRate.toFixed(2)}</div>
-                        <div class="result-item">Maximum overs per team: ${maxOversPerTeam}</div>
-                        <div class="result-item">Maximum overs per bowler: ${maxOverPerBowler(maxOversPerTeam).join(', ')}</div>
-                        <div class="result-item">Powerplay overs: ${powerplayOvers(maxOversPerTeam).join(', ')}</div>
-                    `;
-
-                    if (timeouts && maxOversPerTeam >= 15) {
-                        const [earliestFielding, latestFielding] = fieldingTimeouts(maxOversPerTeam);
-                        const [earliestBatting, latestBatting] = battingTimeouts(maxOversPerTeam);
-                        resultsHTML += `
-                            <div class="result-item">Earliest fielding timeout: Over ${earliestFielding}</div>
-                            <div class="result-item">Latest fielding timeout: Over ${latestFielding}</div>
-                            <div class="result-item">Earliest batting timeout: Over ${earliestBatting}</div>
-                            <div class="result-item">Latest batting timeout: Over ${latestBatting}</div>
-                        `;
-                    }
-
-                    resultsHTML += `<div class="result-item">Length of innings: ${lengthInnings} minutes</div>`;
-
-                    const resultsDiv = document.getElementById('results');
-                    resultsDiv.innerHTML = resultsHTML;
-                    resultsDiv.style.display = 'block';
-                } catch (error) {
-                    alert(error.message);
-                }
-            }
-        </script>
     </body>
 </html>
