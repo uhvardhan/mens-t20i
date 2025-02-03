@@ -9,7 +9,7 @@
             body {background-color:black;}
             h1 {color:red;}
             .content {
-                max-width: 720px;
+                max-width: 1200px;
                 margin: auto;
                 padding: 20px;
             }
@@ -21,14 +21,19 @@
             }
             .form-group {
                 margin-bottom: 15px;
-            }
-            label {
-                display: block;
-                margin-bottom: 5px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
                 color: #ddd;
             }
-            input[type="number"],
-            input[type="time"] {
+            .label {
+                flex: 1;
+                min-width: 200px;
+            }
+            .input-container {
+                width: 120px;
+            }
+            input[type="number"] {
                 width: 100%;
                 padding: 8px;
                 border: 1px solid #333;
@@ -36,9 +41,6 @@
                 color: white;
                 border-radius: 4px;
                 box-sizing: border-box;
-            }
-            input[type="checkbox"] {
-                margin-right: 8px;
             }
             .calculated-value {
                 width: 100%;
@@ -48,6 +50,12 @@
                 border-radius: 4px;
                 box-sizing: border-box;
                 border: 1px solid #333;
+                text-align: right;
+            }
+            .reference {
+                width: 40px;
+                text-align: left;
+                color: #ddd;
             }
         </style>
     </head>
@@ -58,48 +66,70 @@
             </h1>
             <div class="calculator">
                 <div class="form-group">
-                    <label>Net playing time available at start of the match (in minutes)</label>
-                    <input type="number" id="netPlayingTime" min="0" onchange="updateCalculations()" onkeyup="updateCalculations()">
+                    <div class="label">Net playing time available at start of the match (in minutes)</div>
+                    <div class="input-container">
+                        <input type="number" id="netPlayingTime" min="0" onchange="updateCalculations()" onkeyup="updateCalculations()">
+                    </div>
+                    <div class="reference">(A)</div>
                 </div>
                 <div class="form-group">
-                    <label>Time innings in progress (in minutes)</label>
-                    <input type="number" id="firstInningsProgressTime" min="0" onchange="updateCalculations()" onkeyup="updateCalculations()">
+                    <div class="label">Time innings in progress (in minutes)</div>
+                    <div class="input-container">
+                        <input type="number" id="firstInningsProgressTime" min="0" onchange="updateCalculations()" onkeyup="updateCalculations()">
+                    </div>
+                    <div class="reference">(B)</div>
                 </div>
                 <div class="form-group">
-                    <label>Playing time lost (in minutes)</label>
-                    <input type="number" id="lostPlayingTime" min="0" onchange="updateCalculations()" onkeyup="updateCalculations()">
+                    <div class="label">Playing time lost (in minutes)</div>
+                    <div class="input-container">
+                        <input type="number" id="lostPlayingTime" min="0" onchange="updateCalculations()" onkeyup="updateCalculations()">
+                    </div>
+                    <div class="reference">(C)</div>
                 </div>
                 <div class="form-group">
-                    <label>Extra time available (in minutes)</label>
-                    <input type="number" id="extraTime" min="0" onchange="updateCalculations()" onkeyup="updateCalculations()">
+                    <div class="label">Extra time available (in minutes)</div>
+                    <div class="input-container">
+                        <input type="number" id="extraTime" min="0" onchange="updateCalculations()" onkeyup="updateCalculations()">
+                    </div>
+                    <div class="reference">(D)</div>
                 </div>
                 <div class="form-group">
-                    <label>Time made up from reduced interval (in minutes)</label>
-                    <input type="number" id="madeUpTime" min="0" onchange="updateCalculations()" onkeyup="updateCalculations()">
+                    <div class="label">Time made up from reduced interval (in minutes)</div>
+                    <div class="input-container">
+                        <input type="number" id="madeUpTime" min="0" onchange="updateCalculations()" onkeyup="updateCalculations()">
+                    </div>
+                    <div class="reference">(E)</div>
                 </div>
                 <div class="form-group">
-                    <label>Effective playing time lost (in minutes)</label>
-                    <div class="calculated-value" id="effectiveTimeResult">0</div>
+                    <div class="label">Effective playing time lost (in minutes)</div>
+                    <div class="input-container">
+                        <div class="calculated-value" id="effectiveTimeResult">0</div>
+                    </div>
+                    <div class="reference">(F)</div>
                 </div>
                 <div class="form-group">
-                    <label>Remaining playing time available (in minutes)</label>
-                    <div class="calculated-value" id="remainingTimeResult">0</div>
+                    <div class="label">Remaining playing time available (in minutes)</div>
+                    <div class="input-container">
+                        <div class="calculated-value" id="remainingTimeResult">0</div>
+                    </div>
+                    <div class="reference">(G)</div>
                 </div>
                 <div class="form-group">
-                    <label>Remaining playing time available divided by 4.25 (to 2 decimal place)</label>
-                    <div class="calculated-value" id="remainingOversResult">0</div>
+                    <div class="label">Remaining overs (minutes ÷ 4.25)</div>
+                    <div class="input-container">
+                        <div class="calculated-value" id="remainingOversResult">0</div>
+                    </div>
+                    <div class="reference">(H)</div>
                 </div>
             </div>
         </div>
 
         <script>
-            // Calculate on page load to initialize the display
             document.addEventListener('DOMContentLoaded', function() {
                 updateCalculations();
             });
 
             function updateCalculations() {
-                // Calculate effective playing time lost
                 const lostPlayingTime = Number(document.getElementById('lostPlayingTime').value) || 0;
                 const extraTime = Number(document.getElementById('extraTime').value) || 0;
                 const madeUpTime = Number(document.getElementById('madeUpTime').value) || 0;
@@ -107,12 +137,10 @@
                 const effectivePlayingTimeLost = lostPlayingTime - (extraTime + madeUpTime);
                 document.getElementById('effectiveTimeResult').textContent = effectivePlayingTimeLost;
 
-                // Calculate remaining playing time
                 const netPlayingTime = Number(document.getElementById('netPlayingTime').value) || 0;
                 const remainingPlayingTime = netPlayingTime - effectivePlayingTimeLost;
                 document.getElementById('remainingTimeResult').textContent = remainingPlayingTime;
 
-                // Calculate overs
                 const remainingOvers = remainingPlayingTime / 4.25;
                 document.getElementById('remainingOversResult').textContent = remainingOvers.toFixed(2);
             }
