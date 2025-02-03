@@ -153,13 +153,13 @@
                 <div class="form-group">
                     <div class="label"> Maximum overs per bowler [I/5]</div>
                     <div class="input-container">
-                        <div class="calculated-value" id="maxOverperBowlerResult" style="text-align: justify;"></div>
+                        <div class="calculated-value" id="maxOverperBowlerResult" style="text-align: left;"></div>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="label"> Number of Powerplay overs </div>
                     <div class="input-container">
-                        <div class="calculated-value" id="powerplayOversResult" style="text-align: justify;"></div>
+                        <div class="calculated-value" id="powerplayOversResult" style="text-align: left;"></div>
                     </div>
                 </div>
             </div>
@@ -172,12 +172,21 @@
                     <div class="input-container">
                         <input type="time" id="recommenceTime" required>
                     </div>
+                    <div class="reference">(J)</div>
                 </div>
                 <div class="form-group">
                     <div class="label"> Length of innings [I * 4.25] (round up fractions)</div>
                     <div class="input-container">
                         <div class="calculated-value" id="lengthInningsTime"></div>
                     </div>
+                    <div class="reference">(K)</div>
+                </div>
+                <div class="form-group">
+                    <div class="label"> Rescheduled first innings cessation time [J + (K - B)] </div>
+                    <div class="input-container">
+                        <div class="calculated-value" id="reschduledFirstCessationTime"></div>
+                    </div>
+                    <div class="reference">(L)</div>
                 </div>
             </div>
                 
@@ -247,6 +256,7 @@
                 const lostPlayingTime = Number(document.getElementById('lostPlayingTime').value) || 0;
                 const extraTime = Number(document.getElementById('extraTime').value) || 0;
                 const madeUpTime = Number(document.getElementById('madeUpTime').value) || 0;
+                const progressTime = Number(document.getElementById('firstInningsProgressTime').value) || 0;
                 
                 const effectivePlayingTimeLost = lostPlayingTime - (extraTime + madeUpTime);
                 document.getElementById('effectiveTimeResult').textContent = effectivePlayingTimeLost;
@@ -279,6 +289,11 @@
 
                 const inningsLength = Math.ceil(maxOversPerTeam*4.25);
                 document.getElementById('lengthInningsTime').textContent = inningsLength
+
+                const recommencementTime = Number(document.getElementById('').value)
+
+                const firstInningsCessationTime = recommencementTime + (inningsLength - progressTime)
+                document.getElementById('reschduledFirstCessationTime').textContent = firstInningsCessationTime
             }
         </script>
     </body>
