@@ -85,6 +85,10 @@
                     <label>Remaining playing time available (in minutes)</label>
                     <div class="calculated-value" id="remainingTimeResult">0</div>
                 </div>
+                <div class="form-group">
+                    <label>Remaining playing time available divided by 4.25 (to 2 decimal place)</label>
+                    <div class="calculated-value" id="totalOvers">0</div>
+                </div>
             </div>
         </div>
 
@@ -107,6 +111,10 @@
                 const netPlayingTime = Number(document.getElementById('netPlayingTime').value) || 0;
                 const remainingPlayingTime = netPlayingTime - effectivePlayingTimeLost;
                 document.getElementById('remainingTimeResult').textContent = remainingPlayingTime;
+
+                // Calculate overs
+                const remainingOvers = remainingPlayingTime / 4.25;
+                document.getElementById('remainingOversResult').textContent = remainingOvers.toFixed(2);
             }
         </script>
     </body>
