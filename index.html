@@ -114,8 +114,6 @@
 
             function calculateRemainingTime() {
                 const netPlayingTime = Number(document.getElementById('netPlayingTime').value) || 0;
-                const effectivePlayingTimeLost = Number(document.getElementById('effectiveTimeResult').value) || 0;
-
                 const remainingPlayingTime = netPlayingTime - effectivePlayingTimeLost;
 
                 document.getElementById('remainingTimeResult').textContent = remainingPlayingTime;
