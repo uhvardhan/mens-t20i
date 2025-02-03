@@ -153,13 +153,13 @@
                 <div class="form-group">
                     <div class="label"> Maximum overs per bowler [I/5]</div>
                     <div class="input-container">
-                        <div class="calculated-value" id="maxOverperBowlerResult" style="text-align: center;"></div>
+                        <div class="calculated-value" id="maxOverperBowlerResult" style="text-align: justify;"></div>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="label"> Number of Powerplay overs </div>
                     <div class="input-container">
-                        <div class="calculated-value" id="powerplayOversResult" style="text-align: center;"></div>
+                        <div class="calculated-value" id="powerplayOversResult" style="text-align: justify;"></div>
                     </div>
                 </div>
             </div>
@@ -172,7 +172,13 @@
                     <div class="input-container">
                         <input type="time" id="recommenceTime" required>
                     </div>
-                </div> 
+                </div>
+                <div class="form-group">
+                    <div class="label"> Length of innings [I * 4.25] (round up fractions)</div>
+                    <div class="input-container">
+                        <div class="calculated-value" id="lengthInningsTime"></div>
+                    </div>
+                </div>
             </div>
                 
         </div>
@@ -270,6 +276,9 @@
                     const distributionText = powerplayOversDistribution.join(',');
                     document.getElementById('powerplayOversResult').textContent = distributionText;
                 }
+
+                const inningsLength = Math.ceil(maxOversPerTeam*4.25);
+                document.getElementById('lengthInningsTime').textContent = inningsLength
             }
         </script>
     </body>
