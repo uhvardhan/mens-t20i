@@ -12,6 +12,59 @@
             .content {
                 max-width: 720px;
                 margin: auto;
+                padding: 20px;
+            }
+
+            .calculator {
+                background-color: #1a1a1a;
+                padding: 20px;
+                border-radius: 8px;
+                margin-top: 20px;
+            }
+            .form-group {
+                margin-bottom: 15px;
+            }
+            label {
+                display: block;
+                margin-bottom: 5px;
+                color: #ddd;
+            }
+            input[type="number"],
+            input[type="time"] {
+                width: 100%;
+                padding: 8px;
+                border: 1px solid #333;
+                background-color: #2a2a2a;
+                color: white;
+                border-radius: 4px;
+                box-sizing: border-box;
+            }
+            input[type="checkbox"] {
+                margin-right: 8px;
+            }
+            button {
+                background-color: #cc0000;
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                width: 100%;
+                margin-top: 10px;
+            }
+            button:hover {
+                background-color: #ff0000;
+            }
+            #results {
+                margin-top: 20px;
+                padding: 15px;
+                background-color: #2a2a2a;
+                border-radius: 4px;
+                display: none;
+            }
+            .result-item {
+                margin-bottom: 8px;
+                line-height: 1.4;
             }
         </style>
     </head>
@@ -22,8 +75,48 @@
                 Appendix E - Ground-Weather-Light Calculations
             </h1>
 
-            <label> Net playing time (in minutes) </label>
-            <input type="number" id="netPlayingTime" min="0">
+            <div class="calculator">
+                <div class="form-group">
+                    <label>Net playing time (minutes)</label>
+                    <input type="number" id="netPlayingTime" min="0">
+                </div>
+
+                <div class="form-group">
+                    <label>First innings progress time (minutes)</label>
+                    <input type="number" id="firstInningsProgressTime" min="0">
+                </div>
+
+                <div class="form-group">
+                    <label>Lost playing time (minutes)</label>
+                    <input type="number" id="lostPlayingTime" min="0">
+                </div>
+
+                <div class="form-group">
+                    <label>Extra time (minutes)</label>
+                    <input type="number" id="extraTime" min="0">
+                </div>
+
+                <div class="form-group">
+                    <label>Made up time (minutes)</label>
+                    <input type="number" id="madeUpTime" min="0">
+                </div>
+
+                <div class="form-group">
+                    <label>Recommence time (HH:MM)</label>
+                    <input type="time" id="recommenceTime">
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="timeouts" checked>
+                        Enable timeouts
+                    </label>
+                </div>
+
+                <button onclick="calculateResults()">Calculate</button>
+
+                <div id="results"></div>
+            </div>
         </div>
     </body>
 </html>
