@@ -6,9 +6,13 @@
             Webpage for cricket umpires
         </title>
         <style>
-            body {background-color:black;}
-            h1 {color: red;
-               text-align: center;}
+            body {
+                background-color:black;
+            }
+            h1 {
+                color: red;
+                text-align: center;
+            }
             .content {
                 max-width: 1200px;
                 margin: auto;
@@ -131,8 +135,14 @@
                 </div>
                 <div class="form-group">
                     <div class="label"> Maximum overs per bowler [I/5]</div>
-                    <div class="input-container" style="width:150px;">
-                        <div class="calculated-value" id="maxOverperBowlerResult" style="text-align: left;">0</div>
+                    <div class="input-container">
+                        <div class="calculated-value" id="maxOverperBowlerResult" style="text-align: center;">0</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="label"> Number of Powerplay overs </div>
+                    <div class="input-container">
+                        <div class="calculated-value" id="powerplayOversResult" style="text-align: center;">0</div>
                     </div>
                 </div>
             </div>
@@ -143,9 +153,36 @@
                 updateCalculations();
             });
 
+            function calculatePowerplayOvers(oversPerInnings) {
+                if (oversPerInnings < 5) {
+                    return "Innings must have at least 5 overs.";
+                }
+                
+                // Start with all bowlers having 1 over
+                const distribution = Array(2).fill(0);
+                    
+                if (oversPerInnings >= 5 && oversPerInnings <= 8) {
+                    distribution[0] = 2;
+                    distribution[1] = oversPerInnings-2;
+                } else if (oversPerInnings >= 9 && oversPerInnings <= 11) {
+                    distribution[0] = 3;
+                    distribution[1] = oversPerInnings-3;
+                } else if (oversPerInnings >= 12 && oversPerInnings <= 14) {
+                    distribution[0] = 4;
+                    distribution[1] = oversPerInnings-4;
+                } else if (oversPerInnings >= 15 && oversPerInnings <= 18) {
+                    distribution[0] = 5;
+                    distribution[1] = oversPerInnings-5;
+                } else if (oversPerInnings >= 19 && oversPerInnings <= 20) {
+                    distribution[0] = 6;
+                    distribution[1] = oversPerInnings-6;
+                }
+                return distribution;
+            }
+                
             function calculateOversDistribution(oversPerInnings) {
                 if (oversPerInnings < 5) {
-                    return "Minimum 5 overs required";
+                    return "Innings must have at least 5 overs.";
                 }
                 
                 if (oversPerInnings >= 10) {
@@ -195,6 +232,14 @@
                 } else {
                     const distributionText = oversDistribution.join(',');
                     document.getElementById('maxOverperBowlerResult').textContent = distributionText;
+                }
+
+                const powerplayOversDistribution = calculatePowerplayOvers(maxOversPerTeam);
+                if (typeof powerplayOversDistribution === 'string') {
+                    document.getElementById('powerplayOversResult').textContent = powerplayOversDistribution;
+                } else {
+                    const distributionText = powerplayOversDistribution.join(',');
+                    document.getElementById('powerplayOversResult').textContent = distributionText;
                 }
             }
         </script>
