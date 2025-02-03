@@ -57,42 +57,34 @@
                 Appendix E - Ground-Weather-Light Calculations
             </h1>
             <div class="calculator">
-                
                 <div class="form-group">
                     <label>Net playing time available at start of the match (in minutes)</label>
-                    <input type="number" id="netPlayingTime" min="0" onchange="calculateEffectiveTime()" onkeyup="calculateEffectiveTime()">
+                    <input type="number" id="netPlayingTime" min="0" onchange="updateCalculations()" onkeyup="updateCalculations()">
                 </div>
-                
                 <div class="form-group">
                     <label>Time innings in progress (in minutes)</label>
-                    <input type="number" id="firstInningsProgressTime" min="0" onchange="calculateEffectiveTime()" onkeyup="calculateEffectiveTime()">
+                    <input type="number" id="firstInningsProgressTime" min="0" onchange="updateCalculations()" onkeyup="updateCalculations()">
                 </div>
-                
                 <div class="form-group">
                     <label>Playing time lost (in minutes)</label>
-                    <input type="number" id="lostPlayingTime" min="0" onchange="calculateEffectiveTime()" onkeyup="calculateEffectiveTime()">
+                    <input type="number" id="lostPlayingTime" min="0" onchange="updateCalculations()" onkeyup="updateCalculations()">
                 </div>
-                
                 <div class="form-group">
                     <label>Extra time available (in minutes)</label>
-                    <input type="number" id="extraTime" min="0" onchange="calculateEffectiveTime()" onkeyup="calculateEffectiveTime()">
+                    <input type="number" id="extraTime" min="0" onchange="updateCalculations()" onkeyup="updateCalculations()">
                 </div>
-                
                 <div class="form-group">
                     <label>Time made up from reduced interval (in minutes)</label>
-                    <input type="number" id="madeUpTime" min="0" onchange="calculateEffectiveTime()" onkeyup="calculateEffectiveTime()">
+                    <input type="number" id="madeUpTime" min="0" onchange="updateCalculations()" onkeyup="updateCalculations()">
                 </div>
-                
                 <div class="form-group">
                     <label>Effective playing time lost (in minutes)</label>
                     <div class="calculated-value" id="effectiveTimeResult">0</div>
                 </div>
-
                 <div class="form-group">
                     <label>Remaining playing time available (in minutes)</label>
                     <div class="calculated-value" id="remainingTimeResult">0</div>
                 </div>
-                
             </div>
         </div>
 
