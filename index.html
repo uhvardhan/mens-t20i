@@ -181,13 +181,6 @@
                     </div>
                     <div class="reference">(K)</div>
                 </div>
-                <div class="form-group">
-                    <div class="label"> Rescheduled first innings cessation time [J + (K - B)] </div>
-                    <div class="input-container">
-                        <div class="calculated-value" id="reschduledFirstCessationTime">00:00</div>
-                    </div>
-                    <div class="reference">(L)</div>
-                </div>
             </div>
                 
         </div>
@@ -195,53 +188,7 @@
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 updateCalculations();
-                
-                // Add event listeners for all inputs that affect calculations
-                document.getElementById('netPlayingTime').addEventListener('input', updateCalculations);
-                document.getElementById('firstInningsProgressTime').addEventListener('input', updateCalculations);
-                document.getElementById('lostPlayingTime').addEventListener('input', updateCalculations);
-                document.getElementById('extraTime').addEventListener('input', updateCalculations);
-                document.getElementById('madeUpTime').addEventListener('input', updateCalculations);
-                document.getElementById('recommenceTime').addEventListener('input', updateCalculations);
             });
-
-            function calculatePowerplayOvers(oversPerInnings) {
-                // Previous powerplay calculation logic remains the same
-            }
-                
-            function calculateOversDistribution(oversPerInnings) {
-                // Previous overs distribution logic remains the same
-            }
-
-            function convertMinutesToTime(totalMinutes) {
-                if (totalMinutes === null || totalMinutes === undefined) return '';
-                
-                // Handle negative times
-                const isNegative = totalMinutes < 0;
-                const absMinutes = Math.abs(totalMinutes);
-                
-                // Calculate hours and minutes
-                let hours = Math.floor(absMinutes / 60);
-                let minutes = Math.floor(absMinutes % 60);
-                
-                // Handle 24-hour wraparound
-                hours = hours % 24;
-                
-                // Format time
-                const timeString = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
-                return isNegative ? `-${timeString}` : timeString;
-            }
-
-            function convertTimeToMinutes(timeStr) {
-                if (!timeStr) return null;
-                try {
-                    const [hours, minutes] = timeStr.split(':').map(Number);
-                    return hours * 60 + minutes;
-                } catch (error) {
-                    console.error('Error converting time to minutes:', error);
-                    return null;
-                }
-            }
 
             function calculatePowerplayOvers(oversPerInnings) {
                 if (oversPerInnings < 5) {
@@ -299,12 +246,10 @@
             }
 
             function updateCalculations() {
-                const netPlayingTime = Number(document.getElementById('netPlayingTime').value) || 0;
                 const lostPlayingTime = Number(document.getElementById('lostPlayingTime').value) || 0;
                 const extraTime = Number(document.getElementById('extraTime').value) || 0;
                 const madeUpTime = Number(document.getElementById('madeUpTime').value) || 0;
                 const progressTime = Number(document.getElementById('firstInningsProgressTime').value) || 0;
-                const recommenceTime = document.getElementById('recommenceTime').value;
                 
                 const effectivePlayingTimeLost = lostPlayingTime - (extraTime + madeUpTime);
                 document.getElementById('effectiveTimeResult').textContent = effectivePlayingTimeLost;
@@ -337,24 +282,7 @@
 
                 const inningsLength = Math.ceil(maxOversPerTeam*4.25);
                 document.getElementById('lengthInningsTime').textContent = inningsLength
-
-                // Calculate cessation time
-                if (recommenceTime) {
-                    const recommenceMinutes = convertTimeToMinutes(recommenceTime);
-                    if (recommenceMinutes !== null) {
-                        const remainingInningsTime = inningsLength - progressTime;
-                        const cessationMinutes = recommenceMinutes + remainingInningsTime;
-                        const cessationTime = convertMinutesToTime(cessationMinutes);
-                        document.getElementById('reschduledFirstCessationTime').textContent = cessationTime;
-                    }
-                } else {
-                    document.getElementById('reschduledFirstCessationTime').textContent = '';
-                }
             }
-
-            // Add event listener for time input
-            document.getElementById('recommenceTime').addEventListener('change', updateCalculations);
-            
         </script>
     </body>
 </html>
