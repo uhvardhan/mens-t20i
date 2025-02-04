@@ -87,6 +87,7 @@
             <div class="subtitle"><u>Time</u></div>
             
             <div class="calculator">
+
                 <div class="form-group">
                     <div class="label">Net playing time available at start of the match (in minutes)</div>
                     <div class="input-container">
@@ -94,6 +95,7 @@
                     </div>
                     <div class="reference">(A)</div>
                 </div>
+                
                 <div class="form-group">
                     <div class="label">Time innings in progress (in minutes)</div>
                     <div class="input-container">
@@ -101,6 +103,7 @@
                     </div>
                     <div class="reference">(B)</div>
                 </div>
+                
                 <div class="form-group">
                     <div class="label">Playing time lost (in minutes)</div>
                     <div class="input-container">
@@ -108,6 +111,7 @@
                     </div>
                     <div class="reference">(C)</div>
                 </div>
+                
                 <div class="form-group">
                     <div class="label">Extra time available (in minutes)</div>
                     <div class="input-container">
@@ -115,6 +119,7 @@
                     </div>
                     <div class="reference">(D)</div>
                 </div>
+                
                 <div class="form-group">
                     <div class="label">Time made up from reduced interval (in minutes)</div>
                     <div class="input-container">
@@ -122,6 +127,7 @@
                     </div>
                     <div class="reference">(E)</div>
                 </div>
+                
                 <div class="form-group">
                     <div class="label">Effective playing time lost (C - (D + E))</div>
                     <div class="input-container">
@@ -129,6 +135,7 @@
                     </div>
                     <div class="reference">(F)</div>
                 </div>
+                
                 <div class="form-group">
                     <div class="label">Remaining playing time available (A - F)</div>
                     <div class="input-container">
@@ -136,6 +143,7 @@
                     </div>
                     <div class="reference">(G)</div>
                 </div>
+                
                 <div class="form-group">
                     <div class="label">G divided by 4.25 (to 2 decimal places)</div>
                     <div class="input-container">
@@ -143,6 +151,7 @@
                     </div>
                     <div class="reference">(H)</div>
                 </div>
+                
                 <div class="form-group">
                     <div class="label"> Max overs per team [H/2] (round up fractions)</div>
                     <div class="input-container">
@@ -150,23 +159,27 @@
                     </div>
                     <div class="reference">(I)</div>
                 </div>
+                
                 <div class="form-group">
                     <div class="label"> Maximum overs per bowler [I/5]</div>
                     <div class="input-container">
                         <div class="calculated-value" id="maxOverperBowlerResult" style="text-align: left;"></div>
                     </div>
                 </div>
+                
                 <div class="form-group">
                     <div class="label"> Number of Powerplay overs </div>
                     <div class="input-container">
                         <div class="calculated-value" id="powerplayOversResult" style="text-align: left;"></div>
                     </div>
                 </div>
+
             </div>
             
             <div class="subtitle"><u>Rescheduled Playing Hours</u></div>
 
             <div class="calculator">
+                
                 <div class="form-group">
                     <div class="label"> First session to commence or recommence (in hh:mm)</div>
                     <div class="input-container">
@@ -174,6 +187,7 @@
                     </div>
                     <div class="reference">(J)</div>
                 </div>
+                
                 <div class="form-group">
                     <div class="label"> Length of innings [I * 4.25] (round up fractions)</div>
                     <div class="input-container">
@@ -181,6 +195,39 @@
                     </div>
                     <div class="reference">(K)</div>
                 </div>
+
+                <div class="form-group">
+                    <div class="label"> Rescheduled first innings cessation time [J + (K - B)]</div>
+                    <div class="input-container">
+                        <div class="calculated-value" id="rescheduledCessationTime"></div>
+                    </div>
+                    <div class="reference">(L)</div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="label"> Length of interval</div>
+                    <div class="input-container">
+                        <div class="calculated-value" id="intervalLength">0</div>
+                    </div>
+                    <div class="reference">(M)</div>
+                </div>
+
+                <div class="form-group">
+                    <div class="label"> Second innings commencement time [L + M]</div>
+                    <div class="input-container">
+                        <div class="calculated-value" id="commencementTime"></div>
+                    </div>
+                    <div class="reference">(N)</div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="label"> Rescheduled second innings cessation time [N + K]</div>
+                    <div class="input-container">
+                        <div class="calculated-value" id="finalCessationTime"></div>
+                    </div>
+                    <div class="reference">(O)</div>
+                </div>
+
             </div>
                 
         </div>
