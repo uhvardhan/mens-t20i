@@ -1,6 +1,23 @@
-
 document.addEventListener('DOMContentLoaded', function() {
-    updateCalculations();
+    // Add event listeners for all tables
+    const table1Inputs = ['netPlayingTime', 'firstInningsProgressTime', 'lostPlayingTime', 
+                         'extraTime', 'madeUpTime', 'recommenceTime'];
+    
+    const table2Inputs = ['restartTime', 'cutOffTime', 'oversFaced'];
+    
+    const table3Inputs = ['table2Overs', 'startTime'];
+
+    const table4Inputs = ['startInningsTime','startInterruptionTime','restartTime','additionalTime','maxOvers'];
+    
+    [...table1Inputs, ...table2Inputs, ...table3Inputs, ...table4Inputs].forEach(id => {
+        const element = document.getElementById(id);
+        if (element) {
+            element.addEventListener('change', updateAllCalculations);
+            element.addEventListener('input', updateAllCalculations);
+        }
+    });
+
+    updateAllCalculations();
 });
 
 function calculatePowerplayOvers(oversPerInnings) {
@@ -9,7 +26,7 @@ function calculatePowerplayOvers(oversPerInnings) {
     }
     
     const distribution = Array(2).fill(0);
-        
+    
     if (oversPerInnings >= 5 && oversPerInnings <= 8) {
         distribution[0] = 2;
         distribution[1] = oversPerInnings-2;
@@ -28,7 +45,7 @@ function calculatePowerplayOvers(oversPerInnings) {
     }
     return distribution;
 }
-    
+
 function calculateOversDistribution(oversPerInnings) {
     if (oversPerInnings < 5) {
         return "Minimum 5 overs.";
@@ -60,29 +77,36 @@ function addMinutesToTime(timeStr, minutes) {
     date.setHours(hours, mins + minutes);
     
     return date.getHours().toString().padStart(2, '0') + ':' + 
-            date.getMinutes().toString().padStart(2, '0');
+           date.getMinutes().toString().padStart(2, '0');
 }
 
-function updateTimeCalculations() {
-    const recommenceTime = document.getElementById('recommenceTime').value;
-    const inningsLength = Number(document.getElementById('lengthInningsTime').textContent) || 0;
-    const progressTime = Number(document.getElementById('firstInningsProgressTime').value) || 0;
+function getMinutesBetweenTimes(time1, time2) {
+    if (!time1 || !time2) return 0;
     
-    const remainingFirstInnings = inningsLength - progressTime;
-    const cessationTime = addMinutesToTime(recommenceTime, remainingFirstInnings);
-    document.getElementById('rescheduledCessationTime').textContent = cessationTime || '';
+    const [hours1, minutes1] = time1.split(':').map(Number);
+    const [hours2, minutes2] = time2.split(':').map(Number);
     
-    const intervalLength = 10;
-    document.getElementById('intervalLength').textContent = intervalLength;
+    const date1 = new Date();
+    const date2 = new Date();
     
-    const secondInningsStart = addMinutesToTime(cessationTime, intervalLength);
-    document.getElementById('commencementTime').textContent = secondInningsStart || '';
+    date1.setHours(hours1, minutes1, 0);
+    date2.setHours(hours2, minutes2, 0);
     
-    const finalCessationTime = addMinutesToTime(secondInningsStart, inningsLength);
-    document.getElementById('finalCessationTime').textContent = finalCessationTime || '';
+    if (date2 < date1) {
+        date2.setDate(date2.getDate() + 1);
+    }
+    
+    return Math.round((date2 - date1) / (1000 * 60));
 }
 
-function updateCalculations() {
+function updateAllCalculations() {
+    updateTable1Calculations();
+    updateTable2Calculations();
+    updateTable3Calculations();
+    updateTable4Calculations();
+}
+
+function updateTable1Calculations() {
     const lostPlayingTime = Number(document.getElementById('lostPlayingTime').value) || 0;
     const extraTime = Number(document.getElementById('extraTime').value) || 0;
     const madeUpTime = Number(document.getElementById('madeUpTime').value) || 0;
@@ -105,16 +129,14 @@ function updateCalculations() {
     if (typeof oversDistribution === 'string') {
         document.getElementById('maxOverperBowlerResult').textContent = oversDistribution;
     } else {
-        const distributionText = oversDistribution.join(',');
-        document.getElementById('maxOverperBowlerResult').textContent = distributionText;
+        document.getElementById('maxOverperBowlerResult').textContent = oversDistribution.join(',');
     }
 
     const powerplayOversDistribution = calculatePowerplayOvers(maxOversPerTeam);
     if (typeof powerplayOversDistribution === 'string') {
         document.getElementById('powerplayOversResult').textContent = powerplayOversDistribution;
     } else {
-        const distributionText = powerplayOversDistribution.join(',');
-        document.getElementById('powerplayOversResult').textContent = distributionText;
+        document.getElementById('powerplayOversResult').textContent = powerplayOversDistribution.join(',');
     }
 
     const inningsLength = Math.ceil(maxOversPerTeam * 4.25);
@@ -123,67 +145,127 @@ function updateCalculations() {
     updateTimeCalculations();
 }
 
-// Add event listener for the time input
-document.getElementById('recommenceTime').addEventListener('change', updateCalculations);
-
-// Add event listeners for Table 2 calculations
-document.addEventListener('DOMContentLoaded', function() {
-    // Add to existing event listeners without removing them
-    const restartTimeInput = document.getElementById('restartTime');
-    const cutOffTimeInput = document.getElementById('cutOffTime');
-    const oversFacedInput = document.getElementById('oversFaced');
-
-    if (restartTimeInput) restartTimeInput.addEventListener('change', updateTable2);
-    if (cutOffTimeInput) cutOffTimeInput.addEventListener('change', updateTable2);
-    if (oversFacedInput) oversFacedInput.addEventListener('input', updateTable2);
-
-    // Initial calculation for Table 2
-    updateTable2();
-});
-
-function getMinutesBetweenTimes(time1, time2) {
-    if (!time1 || !time2) return 0;
+function updateTimeCalculations() {
+    const recommenceTime = document.getElementById('recommenceTime').value;
+    const inningsLength = Number(document.getElementById('lengthInningsTime').textContent) || 0;
+    const progressTime = Number(document.getElementById('firstInningsProgressTime').value) || 0;
     
-    const [hours1, minutes1] = time1.split(':').map(Number);
-    const [hours2, minutes2] = time2.split(':').map(Number);
+    const remainingFirstInnings = inningsLength - progressTime;
+    const cessationTime = addMinutesToTime(recommenceTime, remainingFirstInnings);
+    document.getElementById('rescheduledCessationTime').textContent = cessationTime || '';
     
-    const date1 = new Date();
-    const date2 = new Date();
+    const intervalLength = 10;
+    document.getElementById('intervalLength').textContent = intervalLength;
     
-    date1.setHours(hours1, minutes1, 0);
-    date2.setHours(hours2, minutes2, 0);
+    const secondInningsStart = addMinutesToTime(cessationTime, intervalLength);
+    document.getElementById('commencementTime').textContent = secondInningsStart || '';
     
-    // Handle cases where the cut-off time is on the next day
-    if (date2 < date1) {
-        date2.setDate(date2.getDate() + 1);
-    }
-    
-    return Math.round((date2 - date1) / (1000 * 60));
+    const finalCessationTime = addMinutesToTime(secondInningsStart, inningsLength);
+    document.getElementById('finalCessationTime').textContent = finalCessationTime || '';
 }
 
-function updateTable2() {
-    // Get input values
+function updateTable2Calculations() {
     const restartTime = document.getElementById('restartTime').value;
     const cutOffTime = document.getElementById('cutOffTime').value;
     const oversFaced = Number(document.getElementById('oversFaced').value) || 0;
     
-    // Calculate minutes between restart time and cut-off time (R)
     const minutesBetween = getMinutesBetweenTimes(restartTime, cutOffTime);
     document.getElementById('minutesBetween').textContent = minutesBetween;
     
-    // Calculate potential overs [R/4.25] (round up fractions) (S)
     const potentialOvers = Math.ceil(minutesBetween / 4.25);
     document.getElementById('potentialOvers').textContent = potentialOvers;
     
-    // Compare potential overs with overs faced to determine next steps
     const resultElement = document.getElementById('table2Result');
     if (resultElement) {
         if (potentialOvers > oversFaced) {
             resultElement.textContent = 'Revert to Table 1 - First innings can continue';
-            resultElement.style.color = '#90EE90'; // Light green
+            resultElement.style.color = '#90EE90';
         } else {
             resultElement.textContent = 'First innings is terminated - Go to Table 3';
-            resultElement.style.color = '#FFB6C1'; // Light red
+            resultElement.style.color = '#FFB6C1';
         }
+    }
+}
+
+function updateTable3Calculations() {
+    // Get input values
+    const table2Overs = Number(document.getElementById('table2Overs').value) || 0;
+    const startTime = document.getElementById('startTime').value;
+    
+    // Calculate scheduled length [A*4.25] (round up fractions)
+    const scheduledLength = Math.ceil(table2Overs * 4.25);
+    document.getElementById('scheduledLength').textContent = scheduledLength;
+    
+    // Calculate scheduled cessation time [C + B]
+    const cessationTime = addMinutesToTime(startTime, scheduledLength);
+    document.getElementById('cessationTime').textContent = cessationTime || '';
+    
+    // Calculate maximum overs per bowler [A/5]
+    const oversDistribution = calculateOversDistribution(table2Overs);
+    if (typeof oversDistribution === 'string') {
+        document.getElementById('maxOversBowler').textContent = oversDistribution;
+    } else {
+        document.getElementById('maxOversBowler').textContent = oversDistribution.join(',');
+    }
+    
+    // Calculate powerplay overs
+    const powerplayOversDistribution = calculatePowerplayOvers(table2Overs);
+    if (typeof powerplayOversDistribution === 'string') {
+        document.getElementById('powerplayOvers').textContent = powerplayOversDistribution;
+    } else {
+        document.getElementById('powerplayOvers').textContent = powerplayOversDistribution.join(',');
+    }
+}
+
+function updateTable4Calculations() {
+    const startInningsTime = document.getElementById('startInningsTime').value;
+    const startInterruptionTime = document.getElementById('startInterruptionTime').value;
+    const restartTime = document.getElementById('restartTime').value;
+    const additionalTime = Number(document.getElementById('additionalTime').value) || 0;
+    const maxOvers = Number(document.getElementById('maxOvers').value) || 0;
+
+    // Calculate time innings in progress (C = B-A)
+    const inningsProgressTime = calculateTimeDifference(startInningsTime, startInterruptionTime);
+    document.getElementById('inningsProgressTime').textContent = inningsProgressTime;
+
+    // Calculate length of interruption (E = D-B)
+    const lengthInterruption = calculateTimeDifference(startInterruptionTime, restartTime);
+    document.getElementById('lengthInterruption').textContent = lengthInterruption;
+
+    // Calculate total playing time lost (G = E-F)
+    const totalTimeLost = Math.max(0, lengthInterruption - additionalTime);
+    document.getElementById('totalTimeLost').textContent = totalTimeLost;
+
+    // Calculate overs lost [G/4.25] (rounded down)
+    const oversLost = Math.floor(totalTimeLost / 4.25);
+    document.getElementById('oversLost').textContent = oversLost;
+
+    // Calculate adjusted maximum length of innings (J = H-I)
+    const adjustedLength = Math.max(0, maxOvers - oversLost);
+    document.getElementById('adjustedLength').textContent = adjustedLength;
+
+    // Calculate rescheduled length of innings [J*4.25] (rounded up)
+    const rescheduledLength = Math.ceil(adjustedLength * 4.25);
+    document.getElementById('rescheduledLength').textContent = rescheduledLength;
+
+    // Calculate amended cessation time (L = D + (K-C))
+    const remainingTime = rescheduledLength - inningsProgressTime;
+    const amendedCessationTime = addMinutesToTime(restartTime, remainingTime);
+    document.getElementById('cessationTime').textContent = amendedCessationTime || '';
+
+    // Calculate maximum overs per bowler [J/5]
+    const oversDistribution = calculateOversDistribution(adjustedLength);
+    if (typeof oversDistribution === 'string') {
+        document.getElementById('maxOversBowler').textContent = oversDistribution;
+    } else {
+        document.getElementById('maxOversBowler').textContent = oversDistribution.join(',');
+    }
+
+    // Calculate powerplay overs
+    const powerplayOversDistribution = calculatePowerplayOvers(adjustedLength);
+    if (typeof powerplayOversDistribution === 'string') {
+        document.getElementById('powerplayOvers').textContent = powerplayOversDistribution;
+    } else {
+        document.getElementById('powerplayOvers').textContent = powerplayOversDistribution.join(',');
     }
 }
