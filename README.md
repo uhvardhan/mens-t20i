@@ -1,2 +1,4 @@
-# cricket-umpire
-A website for cricket umpires
+# Ground-Weather-Light Calculations
+A website for cricket umpires.
+
+Created by Harshvardhan Uppaluru.
