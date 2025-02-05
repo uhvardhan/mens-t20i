@@ -10,6 +10,12 @@ h1 {
     text-align: left;
     margin: 10px 0;
 }
+.small-title {
+    color: #ddd;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+}
 .table-title {
     color: #ddd;
     text-align: left;
