@@ -2,15 +2,14 @@ function initializeTableNavigation() {
     const nav = document.querySelector('.table-nav');
     const tables = document.querySelectorAll('.content');
     
-    // Hide all tables initially
     tables.forEach(table => {
         table.style.display = 'none';
     });
     
     nav.querySelectorAll('.table-btn').forEach(btn => {
         btn.addEventListener('click', () => {
-            const tableIndex = parseInt(btn.dataset.table);
-            const targetTable = document.querySelector(`.content:nth-child(${tableIndex})`);
+            const tableIndex = parseInt(btn.dataset.table) - 1; // Subtract 1 to match array index
+            const targetTable = tables[tableIndex];
             
             if (btn.classList.contains('active')) {
                 btn.classList.remove('active');
