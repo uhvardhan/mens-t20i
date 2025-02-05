@@ -2,12 +2,10 @@
 <html>
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>
-            Webpage for cricket umpires
-        </title>
+        <title>Webpage for cricket umpires</title>
         <style>
             body {
-                background-color:black;
+                background-color: black;
             }
             h1 {
                 color: red;
@@ -23,6 +21,7 @@
                 text-align: left;
                 margin-bottom: 20px;
                 font-weight: bold;
+                font-size: 1.2rem;
             }
             .content {
                 max-width: 1200px;
@@ -50,7 +49,7 @@
                 width: 120px;
             }
             input[type="number"],
-            input[type="time"]{
+            input[type="time"] {
                 width: 100%;
                 padding: 8px;
                 border: 1px solid #333;
@@ -74,20 +73,107 @@
                 text-align: left;
                 color: #ddd;
             }
+
+            .table2-header {
+                color: #ddd;
+                text-align: left;
+                margin: 30px 0 20px 0;
+                font-weight: bold;
+                font-size: 1.2rem;
+            }
+
+            #table2Result {
+                padding: 10px;
+                margin-top: 20px;
+                border-radius: 4px;
+                font-weight: 500;
+                background-color: #2a2a2a;
+            }
+
+            /* Add hover effect to time inputs */
+            input[type="time"]:hover,
+            input[type="number"]:hover {
+                border-color: #444;
+            }
+
+            /* Focus styles for inputs */
+            input[type="time"]:focus,
+            input[type="number"]:focus {
+                border-color: #666;
+                outline: none;
+                box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+            }
+
+            /* Time input specific styles */
+            input[type="time"] {
+                width: 100%;
+                padding: 8px;
+                border: 1px solid #333;
+                background-color: #2a2a2a;
+                color: white;
+                border-radius: 4px;
+                box-sizing: border-box;
+                -webkit-appearance: none;
+            }
+
+            /* Color scheme for time inputs */
+            input[type="time"]::-webkit-calendar-picker-indicator {
+                filter: invert(1);
+                opacity: 0.5;
+            }
+
+            /* Style for the note at bottom */
+            .calculation-note {
+                color: #999;
+                font-style: italic;
+                margin-top: 15px;
+                padding: 10px;
+                border-left: 3px solid #444;
+                background-color: #1a1a1a;
+            }
+
+            /* Make the time fields more visible */
+            .calculated-time {
+                font-family: monospace;
+                letter-spacing: 1px;
+            }
+
+            /* Additional spacing between tables */
+            .calculator + .table-title {
+                margin-top: 40px;
+            }
+
+            /* Responsive adjustments */
+            @media (max-width: 768px) {
+                .form-group {
+                    flex-direction: column;
+                    align-items: flex-start;
+                }
+                
+                .label {
+                    margin-bottom: 5px;
+                    min-width: unset;
+                }
+                
+                .input-container {
+                    width: 100%;
+                }
+                
+                .reference {
+                    margin-top: 5px;
+                }
+            }
         </style>
     </head>
     <body>
         <div class="content">
-            <h1>
-                Appendix E - Ground-Weather-Light Calculations
-            </h1>
+            <h1>Appendix E - Ground-Weather-Light Calculations</h1>
 
             <div class="table-title">Table 1: Calculation sheet for use when a delay or interruptions occur in the First Innings</div>
             
             <div class="subtitle"><u>Time</u></div>
             
             <div class="calculator">
-
                 <div class="form-group">
                     <div class="label">Net playing time available at start of the match (in minutes)</div>
                     <div class="input-container">
@@ -153,7 +239,7 @@
                 </div>
                 
                 <div class="form-group">
-                    <div class="label"> Max overs per team [H/2] (round up fractions)</div>
+                    <div class="label">Max overs per team [H/2] (round up fractions)</div>
                     <div class="input-container">
                         <div class="calculated-value" id="maxOverperteamResult">0</div>
                     </div>
@@ -161,27 +247,25 @@
                 </div>
                 
                 <div class="form-group">
-                    <div class="label"> Maximum overs per bowler [I/5]</div>
+                    <div class="label">Maximum overs per bowler [I/5]</div>
                     <div class="input-container">
                         <div class="calculated-value" id="maxOverperBowlerResult" style="text-align: left;"></div>
                     </div>
                 </div>
                 
                 <div class="form-group">
-                    <div class="label"> Number of Powerplay overs </div>
+                    <div class="label">Number of Powerplay overs</div>
                     <div class="input-container">
                         <div class="calculated-value" id="powerplayOversResult" style="text-align: left;"></div>
                     </div>
                 </div>
-
             </div>
             
             <div class="subtitle"><u>Rescheduled Playing Hours</u></div>
 
             <div class="calculator">
-                
                 <div class="form-group">
-                    <div class="label"> First session to commence or recommence (in hh:mm)</div>
+                    <div class="label">First session to commence or recommence (in hh:mm)</div>
                     <div class="input-container">
                         <input type="time" id="recommenceTime" required>
                     </div>
@@ -189,7 +273,7 @@
                 </div>
                 
                 <div class="form-group">
-                    <div class="label"> Length of innings [I * 4.25] (round up fractions)</div>
+                    <div class="label">Length of innings [I * 4.25] (round up fractions)</div>
                     <div class="input-container">
                         <div class="calculated-value" id="lengthInningsTime"></div>
                     </div>
@@ -197,7 +281,7 @@
                 </div>
 
                 <div class="form-group">
-                    <div class="label"> Rescheduled first innings cessation time [J + (K - B)]</div>
+                    <div class="label">Rescheduled first innings cessation time [J + (K - B)]</div>
                     <div class="input-container">
                         <div class="calculated-value" id="rescheduledCessationTime"></div>
                     </div>
@@ -205,7 +289,7 @@
                 </div>
                 
                 <div class="form-group">
-                    <div class="label"> Length of interval</div>
+                    <div class="label">Length of interval</div>
                     <div class="input-container">
                         <div class="calculated-value" id="intervalLength">0</div>
                     </div>
@@ -213,7 +297,7 @@
                 </div>
 
                 <div class="form-group">
-                    <div class="label"> Second innings commencement time [L + M]</div>
+                    <div class="label">Second innings commencement time [L + M]</div>
                     <div class="input-container">
                         <div class="calculated-value" id="commencementTime"></div>
                     </div>
@@ -221,20 +305,71 @@
                 </div>
                 
                 <div class="form-group">
-                    <div class="label"> Rescheduled second innings cessation time [N + K]</div>
+                    <div class="label">Rescheduled second innings cessation time [N + K]</div>
                     <div class="input-container">
                         <div class="calculated-value" id="finalCessationTime"></div>
                     </div>
                     <div class="reference">(O)</div>
                 </div>
-
             </div>
 
-            <div class="subtitle">Ensure that the match is not finishing earlier than the original or rescheduled cessation time by applying clause 13.7.2.
+            <div class="subtitle">
+                Ensure that the match is not finishing earlier than the original or rescheduled cessation time by applying clause 13.7.2.
                 If so, add at least one over to each team and recalculate (I) to (O) above to prevent this from happening.
             </div>
-            
-                
+        </div>
+
+        <div class="content">
+            <div class="table-title">Table 2: Calculation sheet to check whether an interruption during the First Innings should terminate the innings</div>
+                            
+            <div class="calculator">
+                <div class="form-group">
+                    <div class="label">Proposed re-start time</div>
+                    <div class="input-container">
+                        <input type="time" id="restartTime" required>
+                    </div>
+                    <div class="reference">(P)</div>
+                </div>
+        
+                <div class="form-group">
+                    <div class="label">Rescheduled cut-off time allowing for full use of any extra time provision</div>
+                    <div class="input-container">
+                        <input type="time" id="cutOffTime" required>
+                    </div>
+                    <div class="reference">(Q)</div>
+                </div>
+        
+                <div class="form-group">
+                    <div class="label">Minutes between P and Q</div>
+                    <div class="input-container">
+                        <div class="calculated-value" id="minutesBetween">0</div>
+                    </div>
+                    <div class="reference">(R)</div>
+                </div>
+        
+                <div class="form-group">
+                    <div class="label">Potential overs to be bowled [R/4.25] (round up fractions)</div>
+                    <div class="input-container">
+                        <div class="calculated-value" id="potentialOvers">0</div>
+                    </div>
+                    <div class="reference">(S)</div>
+                </div>
+        
+                <div class="form-group">
+                    <div class="label">Number of complete overs faced to date in first innings</div>
+                    <div class="input-container">
+                        <input type="number" id="oversFaced" min="0" required>
+                    </div>
+                    <div class="reference">(T)</div>
+                </div>
+            </div>
+        
+            <div class="subtitle">
+                If S is greater than T then revert to Table 1
+                If S is less than or equal to T then the first innings is terminated - Go to Table 3
+            </div>
+        
+            <div id="table2Result" class="subtitle" style="margin-top: 20px;"></div>
         </div>
 
         <script>
@@ -247,7 +382,6 @@
                     return "Minimum 5 overs.";
                 }
                 
-                // Start with all bowlers having 1 over
                 const distribution = Array(2).fill(0);
                     
                 if (oversPerInnings >= 5 && oversPerInnings <= 8) {
@@ -275,26 +409,51 @@
                 }
                 
                 if (oversPerInnings >= 10) {
-                    // Calculate base overs and extra overs
                     const baseOvers = Math.floor(oversPerInnings / 5);
                     const extraOvers = oversPerInnings % 5;
-                    // Create array of 5 bowlers with base overs
                     return Array(5).fill(0).map((_, index) => 
                         index < extraOvers ? baseOvers + 1 : baseOvers
                     );
                 } else if (oversPerInnings >= 5 && oversPerInnings <= 9) {
                     const maxOversPerBowler = 2;
-                    // Calculate number of bowlers needed
                     const numBowlers = Math.ceil(oversPerInnings / maxOversPerBowler);
-                    // Start with all bowlers having 1 over
                     const distribution = Array(numBowlers).fill(1);
-                    // Distribute remaining overs
                     const remainingOvers = oversPerInnings - numBowlers;
                     for (let i = 0; i < remainingOvers; i++) {
                         distribution[i] += 1;
                     }
                     return distribution;
                 }
+            }
+
+            function addMinutesToTime(timeStr, minutes) {
+                if (!timeStr) return '';
+                
+                const [hours, mins] = timeStr.split(':').map(Number);
+                const date = new Date();
+                date.setHours(hours, mins + minutes);
+                
+                return date.getHours().toString().padStart(2, '0') + ':' + 
+                       date.getMinutes().toString().padStart(2, '0');
+            }
+
+            function updateTimeCalculations() {
+                const recommenceTime = document.getElementById('recommenceTime').value;
+                const inningsLength = Number(document.getElementById('lengthInningsTime').textContent) || 0;
+                const progressTime = Number(document.getElementById('firstInningsProgressTime').value) || 0;
+                
+                const remainingFirstInnings = inningsLength - progressTime;
+                const cessationTime = addMinutesToTime(recommenceTime, remainingFirstInnings);
+                document.getElementById('rescheduledCessationTime').textContent = cessationTime || '';
+                
+                const intervalLength = 10;
+                document.getElementById('intervalLength').textContent = intervalLength;
+                
+                const secondInningsStart = addMinutesToTime(cessationTime, intervalLength);
+                document.getElementById('commencementTime').textContent = secondInningsStart || '';
+                
+                const finalCessationTime = addMinutesToTime(secondInningsStart, inningsLength);
+                document.getElementById('finalCessationTime').textContent = finalCessationTime || '';
             }
 
             function updateCalculations() {
@@ -332,8 +491,75 @@
                     document.getElementById('powerplayOversResult').textContent = distributionText;
                 }
 
-                const inningsLength = Math.ceil(maxOversPerTeam*4.25);
-                document.getElementById('lengthInningsTime').textContent = inningsLength
+                const inningsLength = Math.ceil(maxOversPerTeam * 4.25);
+                document.getElementById('lengthInningsTime').textContent = inningsLength;
+
+                updateTimeCalculations();
+            }
+
+            // Add event listener for the time input
+            document.getElementById('recommenceTime').addEventListener('change', updateCalculations);
+
+            // Add event listeners for Table 2 calculations
+            document.addEventListener('DOMContentLoaded', function() {
+                // Add to existing event listeners without removing them
+                const restartTimeInput = document.getElementById('restartTime');
+                const cutOffTimeInput = document.getElementById('cutOffTime');
+                const oversFacedInput = document.getElementById('oversFaced');
+
+                if (restartTimeInput) restartTimeInput.addEventListener('change', updateTable2);
+                if (cutOffTimeInput) cutOffTimeInput.addEventListener('change', updateTable2);
+                if (oversFacedInput) oversFacedInput.addEventListener('input', updateTable2);
+
+                // Initial calculation for Table 2
+                updateTable2();
+            });
+
+            function getMinutesBetweenTimes(time1, time2) {
+                if (!time1 || !time2) return 0;
+                
+                const [hours1, minutes1] = time1.split(':').map(Number);
+                const [hours2, minutes2] = time2.split(':').map(Number);
+                
+                const date1 = new Date();
+                const date2 = new Date();
+                
+                date1.setHours(hours1, minutes1, 0);
+                date2.setHours(hours2, minutes2, 0);
+                
+                // Handle cases where the cut-off time is on the next day
+                if (date2 < date1) {
+                    date2.setDate(date2.getDate() + 1);
+                }
+                
+                return Math.round((date2 - date1) / (1000 * 60));
+            }
+
+            function updateTable2() {
+                // Get input values
+                const restartTime = document.getElementById('restartTime').value;
+                const cutOffTime = document.getElementById('cutOffTime').value;
+                const oversFaced = Number(document.getElementById('oversFaced').value) || 0;
+                
+                // Calculate minutes between restart time and cut-off time (R)
+                const minutesBetween = getMinutesBetweenTimes(restartTime, cutOffTime);
+                document.getElementById('minutesBetween').textContent = minutesBetween;
+                
+                // Calculate potential overs [R/4.25] (round up fractions) (S)
+                const potentialOvers = Math.ceil(minutesBetween / 4.25);
+                document.getElementById('potentialOvers').textContent = potentialOvers;
+                
+                // Compare potential overs with overs faced to determine next steps
+                const resultElement = document.getElementById('table2Result');
+                if (resultElement) {
+                    if (potentialOvers > oversFaced) {
+                        resultElement.textContent = 'Revert to Table 1 - First innings can continue';
+                        resultElement.style.color = '#90EE90'; // Light green
+                    } else {
+                        resultElement.textContent = 'First innings is terminated - Go to Table 3';
+                        resultElement.style.color = '#FFB6C1'; // Light red
+                    }
+                }
             }
         </script>
     </body>
