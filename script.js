@@ -2,30 +2,25 @@ function initializeTableNavigation() {
     const nav = document.querySelector('.table-nav');
     const tables = document.querySelectorAll('.content');
     
-    tables.forEach((table, index) => {
-        table.setAttribute('data-table-index', index + 1);
+    // Hide all tables initially
+    tables.forEach(table => {
         table.style.display = 'none';
     });
     
     nav.querySelectorAll('.table-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             const tableIndex = parseInt(btn.dataset.table);
+            const targetTable = document.querySelector(`.content:nth-child(${tableIndex})`);
             
             if (btn.classList.contains('active')) {
                 btn.classList.remove('active');
-                tables.forEach(table => {
-                    table.style.display = 'none';
-                });
-                return;
+                targetTable.style.display = 'none';
+            } else {
+                nav.querySelectorAll('.table-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                tables.forEach(table => table.style.display = 'none');
+                targetTable.style.display = 'block';
             }
-            
-            nav.querySelectorAll('.table-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            
-            tables.forEach(table => {
-                const index = parseInt(table.getAttribute('data-table-index'));
-                table.style.display = index === tableIndex ? 'block' : 'none';
-            });
         });
     });
 }
