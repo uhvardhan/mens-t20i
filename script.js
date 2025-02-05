@@ -10,7 +10,7 @@ function initializeTableNavigation() {
     tables.forEach((table, index) => {
         // Add data attribute to identify tables
         table.setAttribute('data-table-index', index + 1);
-        if (index > 0) table.style.display = 'none';
+        table.style.display = 'none';
     });
     
     nav.querySelectorAll('.table-btn').forEach(btn => {
