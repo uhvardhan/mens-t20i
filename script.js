@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const table3Inputs = ['table2Overs', 'startTime'];
 
-    const table4Inputs = ['startInningsTime','startInterruptionTime','restartTime','additionalTime','maxOvers'];
+    const table4Inputs = ['startInningsTime','startInterruptionTime','restartTime2','additionalTime','maxOvers'];
     
     [...table1Inputs, ...table2Inputs, ...table3Inputs, ...table4Inputs].forEach(id => {
         const element = document.getElementById(id);
@@ -67,6 +67,24 @@ function calculateOversDistribution(oversPerInnings) {
         }
         return distribution;
     }
+}
+
+function calculateTimeDifference(time1, time2) {
+    if (!time1 || !time2) return 0;
+    
+    const [hours1, minutes1] = time1.split(':').map(Number);
+    const [hours2, minutes2] = time2.split(':').map(Number);
+    
+    const time1InMinutes = hours1 * 60 + minutes1;
+    const time2InMinutes = hours2 * 60 + minutes2;
+    
+    let diffMinutes = time2InMinutes - time1InMinutes;
+    
+    if (diffMinutes < 0) {
+        diffMinutes += 24 * 60;
+    }
+    
+    return diffMinutes;
 }
 
 function addMinutesToTime(timeStr, minutes) {
@@ -220,16 +238,16 @@ function updateTable3Calculations() {
 function updateTable4Calculations() {
     const startInningsTime = document.getElementById('startInningsTime').value;
     const startInterruptionTime = document.getElementById('startInterruptionTime').value;
-    const restartTime = document.getElementById('restartTime').value;
+    const restartTime2 = document.getElementById('restartTime2').value;
     const additionalTime = Number(document.getElementById('additionalTime').value) || 0;
     const maxOvers = Number(document.getElementById('maxOvers').value) || 0;
 
     // Calculate time innings in progress (C = B-A)
-    const inningsProgressTime = calculateTimeDifference(startInningsTime, startInterruptionTime);
+    const inningsProgressTime = getMinutesBetweenTimes(startInningsTime, startInterruptionTime);
     document.getElementById('inningsProgressTime').textContent = inningsProgressTime;
 
     // Calculate length of interruption (E = D-B)
-    const lengthInterruption = calculateTimeDifference(startInterruptionTime, restartTime);
+    const lengthInterruption = getMinutesBetweenTimes(startInterruptionTime, restartTime2);
     document.getElementById('lengthInterruption').textContent = lengthInterruption;
 
     // Calculate total playing time lost (G = E-F)
@@ -250,22 +268,22 @@ function updateTable4Calculations() {
 
     // Calculate amended cessation time (L = D + (K-C))
     const remainingTime = rescheduledLength - inningsProgressTime;
-    const amendedCessationTime = addMinutesToTime(restartTime, remainingTime);
-    document.getElementById('cessationTime').textContent = amendedCessationTime || '';
+    const amendedCessationTime = addMinutesToTime(restartTime2, remainingTime);
+    document.getElementById('cessationTime2').textContent = amendedCessationTime;
 
     // Calculate maximum overs per bowler [J/5]
-    const oversDistribution = calculateOversDistribution(adjustedLength);
-    if (typeof oversDistribution === 'string') {
-        document.getElementById('maxOversBowler').textContent = oversDistribution;
+    const oversDistribution2 = calculateOversDistribution(adjustedLength);
+    if (typeof oversDistribution2 === 'string') {
+        document.getElementById('maxOversBowler2').textContent = oversDistribution2;
     } else {
-        document.getElementById('maxOversBowler').textContent = oversDistribution.join(',');
+        document.getElementById('maxOversBowler2').textContent = oversDistribution2.join(',');
     }
 
     // Calculate powerplay overs
-    const powerplayOversDistribution = calculatePowerplayOvers(adjustedLength);
-    if (typeof powerplayOversDistribution === 'string') {
-        document.getElementById('powerplayOvers').textContent = powerplayOversDistribution;
+    const powerplayOversDistribution2 = calculatePowerplayOvers(adjustedLength);
+    if (typeof powerplayOversDistribution2 === 'string') {
+        document.getElementById('powerplayOvers2').textContent = powerplayOversDistribution2;
     } else {
-        document.getElementById('powerplayOvers').textContent = powerplayOversDistribution.join(',');
+        document.getElementById('powerplayOvers2').textContent = powerplayOversDistribution2.join(',');
     }
 }
