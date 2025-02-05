@@ -5,6 +5,11 @@ h1 {
     color: red;
     text-align: center;
 }
+.header {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+}
 .subtitle {
     color: #ddd;
     text-align: left;
@@ -14,6 +19,7 @@ h1 {
     color: #ddd;
     text-align: center;
     margin-bottom: 20px;
+    font-weight: bold;
     font-size: 1.5rem;
 }
 .table-title {
@@ -37,6 +43,7 @@ h1 {
 .form-group {
     margin-bottom: 15px;
     display: flex;
+    min-height: 30px;
     align-items: center;
     gap: 5px;
     color: #ddd;
@@ -47,10 +54,14 @@ h1 {
 }
 .input-container {
     width: 120px;
+    min-height: 30px;
+    display: flex;
+    align-items: center;
 }
 input[type="number"],
 input[type="time"] {
     width: 100%;
+    min-height: 30px;
     padding: 8px;
     border: 1px solid #333;
     background-color: #2a2a2a;
@@ -60,6 +71,7 @@ input[type="time"] {
 }
 .calculated-value {
     width: 100%;
+    min-height: 30px;
     padding: 8px;
     background-color: #2a2a2a;
     color: white;
@@ -141,6 +153,36 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 /* Additional spacing between tables */
 .calculator + .table-title {
     margin-top: 40px;
+}
+
+.table-nav {
+    max-width: 1200px;
+    margin: 20px auto;
+    display: flex;
+    gap: 10px;
+    padding: 0 20px;
+    justify-content: center;  /* Add this line */
+}
+
+.table-btn {
+    padding: 10px 20px;
+    background: #2a2a2a;
+    border: 1px solid #333;
+    color: #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+    min-width: 100px;  /* Add this line for consistent button width */
+}
+.table-btn:hover {
+    background: #333;
+    border-color: #444;
+}
+
+.table-btn.active {
+    background: #444;
+    border-color: #555;
+    color: white;
 }
 
 /* Responsive adjustments */
