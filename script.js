@@ -1,14 +1,8 @@
-// Add this debugging code to check table selection
 function initializeTableNavigation() {
     const nav = document.querySelector('.table-nav');
     const tables = document.querySelectorAll('.content');
     
-    // Log table count
-    console.log('Number of tables found:', tables.length);
-    
-    // Hide all except first
     tables.forEach((table, index) => {
-        // Add data attribute to identify tables
         table.setAttribute('data-table-index', index + 1);
         table.style.display = 'none';
     });
@@ -16,17 +10,21 @@ function initializeTableNavigation() {
     nav.querySelectorAll('.table-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             const tableIndex = parseInt(btn.dataset.table);
-            console.log('Selected table:', tableIndex);
             
-            // Update button states
+            if (btn.classList.contains('active')) {
+                btn.classList.remove('active');
+                tables.forEach(table => {
+                    table.style.display = 'none';
+                });
+                return;
+            }
+            
             nav.querySelectorAll('.table-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             
-            // Show selected table
             tables.forEach(table => {
                 const index = parseInt(table.getAttribute('data-table-index'));
                 table.style.display = index === tableIndex ? 'block' : 'none';
-                console.log('Table', index, 'display:', table.style.display);
             });
         });
     });
