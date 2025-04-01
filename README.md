@@ -34,16 +34,6 @@ A dynamic web-based tool to assist in Ground, Weather, and Light (GWL) related i
 
 ---
 
-## 🚧 To Do
-
-1. 🧹 Clean up JavaScript code (modularize functions)
-2. 👀 Add visitor count functionality
-3. ➕ Extend to support **ODI GWL calculations**
-4. 🎨 Improve UI styling and layout responsiveness
-5. 📘 Add tutorial or user guide document
-
----
-
 ## 👨‍💻 Created by
 
 **Harshvardhan Uppaluru**  

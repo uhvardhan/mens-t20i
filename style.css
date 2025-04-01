@@ -1,208 +1,133 @@
 body {
-    background-color: black;
-}
-h1 {
+    background-color: #000;
+    font-family: Arial, sans-serif;
+    color: #ddd;
+    margin: 0;
+    padding: 0;
+  }
+  
+  h1 {
     color: red;
     text-align: center;
-}
-.header {
+  }
+  
+  .header {
     max-width: 1200px;
     margin: auto;
     padding: 20px;
-}
-.subtitle {
-    color: #ddd;
-    text-align: left;
-    margin: 10px 0;
-    font-weight: bold;
-}
-.small-title {
-    color: #ddd;
+  }
+  
+  .small-title {
     text-align: center;
-    margin-bottom: 20px;
-    font-weight: bold;
     font-size: 1.5rem;
-}
-.table-title {
-    color: #ddd;
-    text-align: left;
-    margin-bottom: 20px;
     font-weight: bold;
-    font-size: 1.2rem;
-}
-.content {
+    margin-bottom: 20px;
+  }
+  
+  .table-nav {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px 0;
+  }
+  
+  .table-btn {
+    padding: 10px 20px;
+    background-color: #2a2a2a;
+    border: 1px solid #333;
+    border-radius: 4px;
+    color: #ddd;
+    cursor: pointer;
+    min-width: 100px;
+    transition: all 0.3s ease;
+  }
+  
+  .table-btn:hover {
+    background-color: #333;
+    border-color: #444;
+  }
+  
+  .table-btn.active {
+    background-color: #444;
+    border-color: #555;
+    color: #fff;
+  }
+  
+  .content {
     max-width: 1200px;
     margin: auto;
     padding: 20px;
-}
-.calculator {
+  }
+  
+  .table-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .calculator {
     background-color: #1a1a1a;
     padding: 20px;
     border-radius: 8px;
-    margin-top: 20px;
-}
-.form-group {
-    margin-bottom: 15px;
-    display: flex;
-    min-height: 30px;
-    align-items: center;
-    gap: 5px;
-    color: #ddd;
-}
-.label {
-    flex: 1;
-    min-width: 200px;
-}
-.input-container {
-    width: 120px;
-    min-height: 30px;
-    display: flex;
-    align-items: center;
-}
-input[type="number"],
-input[type="time"] {
-    width: 100%;
-    min-height: 30px;
-    padding: 8px;
-    border: 1px solid #333;
-    background-color: #2a2a2a;
-    color: white;
-    border-radius: 4px;
-    box-sizing: border-box;
-}
-.calculated-value {
-    width: 100%;
-    min-height: 30px;
-    padding: 8px;
-    background-color: #2a2a2a;
-    color: white;
-    border-radius: 4px;
-    box-sizing: border-box;
-    border: 1px solid #333;
-    text-align: right;
-}
-.reference {
-    width: 40px;
-    text-align: left;
-    color: #ddd;
-}
-
-.table2-header {
-    color: #ddd;
-    text-align: left;
-    margin: 30px 0 20px 0;
+  }
+  
+  .subtitle {
     font-weight: bold;
-    font-size: 1.2rem;
-}
-
-#table2Result {
-    padding: 10px;
-    margin-top: 20px;
-    border-radius: 4px;
-    font-weight: 500;
+    margin: 10px 0;
+  }
+  
+  .form-group {
+    display: grid;
+    grid-template-columns: 1fr 160px 40px;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .label {
+    font-size: 1rem;
+  }
+  
+  input[type="number"],
+  input[type="time"],
+  .calculated-value {
+    width: 100%;
+    max-width: 160px;
+    height: 40px;
+    padding: 8px;
     background-color: #2a2a2a;
-}
-
-/* Add hover effect to time inputs */
-input[type="time"]:hover,
-input[type="number"]:hover {
-    border-color: #444;
-}
-
-/* Focus styles for inputs */
-input[type="time"]:focus,
-input[type="number"]:focus {
+    color: white;
+    border: 1px solid #333;
+    border-radius: 4px;
+    font-size: 1rem;
+    box-sizing: border-box;
+  }
+  
+  input[type="number"]:focus,
+  input[type="time"]:focus {
     border-color: #666;
     outline: none;
     box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
-}
-
-/* Time input specific styles */
-input[type="time"] {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #333;
-    background-color: #2a2a2a;
-    color: white;
-    border-radius: 4px;
-    box-sizing: border-box;
-    -webkit-appearance: none;
-}
-
-/* Color scheme for time inputs */
-input[type="time"]::-webkit-calendar-picker-indicator {
-    filter: invert(1);
-    opacity: 0.5;
-}
-
-/* Style for the note at bottom */
-.calculation-note {
-    color: #999;
-    font-style: italic;
-    margin-top: 15px;
-    padding: 10px;
-    border-left: 3px solid #444;
-    background-color: #1a1a1a;
-}
-
-/* Make the time fields more visible */
-.calculated-time {
-    font-family: monospace;
-    letter-spacing: 1px;
-}
-
-/* Additional spacing between tables */
-.calculator + .table-title {
-    margin-top: 40px;
-}
-
-.table-nav {
-    max-width: 1200px;
-    margin: 20px auto;
-    display: flex;
-    gap: 10px;
-    padding: 0 20px;
-    justify-content: center;  /* Add this line */
-}
-
-.table-btn {
-    padding: 10px 20px;
-    background: #2a2a2a;
-    border: 1px solid #333;
-    color: #ddd;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.3s;
-    min-width: 100px;  /* Add this line for consistent button width */
-}
-.table-btn:hover {
-    background: #333;
-    border-color: #444;
-}
-
-.table-btn.active {
-    background: #444;
-    border-color: #555;
-    color: white;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
+  }
+  
+  .reference {
+    text-align: left;
+    font-size: 0.9rem;
+  }
+  
+  @media (max-width: 768px) {
     .form-group {
-        flex-direction: column;
-        align-items: flex-start;
+      grid-template-columns: 1fr;
     }
-    
-    .label {
-        margin-bottom: 5px;
-        min-width: unset;
+  
+    input[type="number"],
+    input[type="time"],
+    .calculated-value {
+      max-width: 100%;
     }
-    
-    .input-container {
-        width: 100%;
-    }
-    
+  
     .reference {
-        margin-top: 5px;
+      margin-top: 5px;
     }
-}
+  }
+  
