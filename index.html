@@ -1,429 +1,144 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>ICC Men's T20I Calculations</title>
-        <link rel="stylesheet" href="style.css">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ICC Men's T20I Calculations</title>
+  <link rel="stylesheet" href="style.css">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-3MHF73WKZV"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-3MHF73WKZV');
+  </script>
+</head>
+<body>
+  <div class="header">
+    <h1>Appendix E - Ground-Weather-Light Calculations</h1>
+    <div class="small-title">ICC Men's T20I Playing Conditions ONLY</div>
+    <div class="table-nav">
+      <button class="table-btn" data-table="1">Table 1</button>
+      <button class="table-btn" data-table="2">Table 2</button>
+      <button class="table-btn" data-table="3">Table 3</button>
+      <button class="table-btn" data-table="4">Table 4</button>
+    </div>
+  </div>
 
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-3MHF73WKZV"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-3MHF73WKZV');
-        </script>
-    </head>
-    <body>
-        <div class="header">
+  <div class="content">
+    <div class="table-title">Table 1: Calculation sheet for use when a delay or interruptions occur in the First Innings</div>
+    <div class="calculator">
+      <div class="subtitle"><u>Time</u></div>
 
-            <h1>Appendix E - Ground-Weather-Light Calculations</h1>
+      <div class="form-group">
+        <div class="label">Net playing time available at start of the match (in minutes)</div>
+        <input type="number" id="netPlayingTime" min="0">
+        <div class="reference">(A)</div>
+      </div>
 
-            <div class="small-title"> ICC Men's T20I Playing Conditions ONLY</div>
+      <div class="form-group">
+        <div class="label">Time innings in progress (in minutes)</div>
+        <input type="number" id="firstInningsProgressTime" min="0">
+        <div class="reference">(B)</div>
+      </div>
 
-            <div class="table-nav">
-                <button class="table-btn" data-table="1">Table 1</button>
-                <button class="table-btn" data-table="2">Table 2</button>
-                <button class="table-btn" data-table="3">Table 3</button>
-                <button class="table-btn" data-table="4">Table 4</button>
-            </div>
-        </div>
-        
-        <div class="content">
-            
-            <div class="table-title">Table 1: Calculation sheet for use when a delay or interruptions occur in the First Innings</div>
-            
-            <div class="calculator">
+      <div class="form-group">
+        <div class="label">Playing time lost (in minutes)</div>
+        <input type="number" id="lostPlayingTime" min="0">
+        <div class="reference">(C)</div>
+      </div>
 
-                <div class="subtitle"><u>Time</u></div>
-            
-                <div class="form-group">
-                    <div class="label"> Net playing time available at start of the match (in minutes) </div>
-                    <div class="input-container">
-                        <input type="number" id="netPlayingTime" min="0" onchange="updateCalculations()" onkeyup="updateCalculations()">
-                    </div>
-                    <div class="reference">(A)</div>
-                </div>
-                
-                <div class="form-group">
-                    <div class="label"> Time innings in progress (in minutes) </div>
-                    <div class="input-container">
-                        <input type="number" id="firstInningsProgressTime" min="0" onchange="updateCalculations()" onkeyup="updateCalculations()">
-                    </div>
-                    <div class="reference">(B)</div>
-                </div>
-                
-                <div class="form-group">
-                    <div class="label"> Playing time lost (in minutes) </div>
-                    <div class="input-container">
-                        <input type="number" id="lostPlayingTime" min="0" onchange="updateCalculations()" onkeyup="updateCalculations()">
-                    </div>
-                    <div class="reference">(C)</div>
-                </div>
-                
-                <div class="form-group">
-                    <div class="label"> Extra time available (in minutes) </div>
-                    <div class="input-container">
-                        <input type="number" id="extraTime" min="0" onchange="updateCalculations()" onkeyup="updateCalculations()">
-                    </div>
-                    <div class="reference">(D)</div>
-                </div>
-                
-                <div class="form-group">
-                    <div class="label"> Time made up from reduced interval (in minutes) </div>
-                    <div class="input-container">
-                        <input type="number" id="madeUpTime" min="0" onchange="updateCalculations()" onkeyup="updateCalculations()">
-                    </div>
-                    <div class="reference">(E)</div>
-                </div>
-                
-                <div class="form-group">
-                    <div class="label"> Effective playing time lost [C - (D + E)] </div>
-                    <div class="input-container">
-                        <div class="calculated-value" id="effectiveTimeResult">0</div>
-                    </div>
-                    <div class="reference">(F)</div>
-                </div>
-                
-                <div class="form-group">
-                    <div class="label"> Remaining playing time available [A - F] </div>
-                    <div class="input-container">
-                        <div class="calculated-value" id="remainingTimeResult">0</div>
-                    </div>
-                    <div class="reference">(G)</div>
-                </div>
-                
-                <div class="form-group">
-                    <div class="label"> G divided by 4.25 (to 2 decimal places) </div>
-                    <div class="input-container">
-                        <div class="calculated-value" id="remainingOversResult">0</div>
-                    </div>
-                    <div class="reference">(H)</div>
-                </div>
-                
-                <div class="form-group">
-                    <div class="label"> Max overs per team [H/2] (round up fractions) </div>
-                    <div class="input-container">
-                        <div class="calculated-value" id="maxOverperteamResult">0</div>
-                    </div>
-                    <div class="reference">(I)</div>
-                </div>
-                
-                <div class="form-group">
-                    <div class="label"> Maximum overs per bowler [I/5] </div>
-                    <div class="input-container">
-                        <div class="calculated-value" id="maxOverperBowlerResult" style="text-align: left;"></div>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <div class="label"> Number of Powerplay overs </div>
-                    <div class="input-container">
-                        <div class="calculated-value" id="powerplayOversResult" style="text-align: left;"></div>
-                    </div>
-                </div>
-            
-            
-                <div class="subtitle"><u>Rescheduled Playing Hours</u></div>
+      <div class="form-group">
+        <div class="label">Extra time available (in minutes)</div>
+        <input type="number" id="extraTime" min="0">
+        <div class="reference">(D)</div>
+      </div>
 
-                <div class="form-group">
-                    <div class="label"> First session to commence or recommence (in hh:mm) </div>
-                    <div class="input-container">
-                        <input type="time" id="recommenceTime" required>
-                    </div>
-                    <div class="reference">(J)</div>
-                </div>
-                
-                <div class="form-group">
-                    <div class="label"> Length of innings [I * 4.25] (round up fractions) </div>
-                    <div class="input-container">
-                        <div class="calculated-value" id="lengthInningsTime"></div>
-                    </div>
-                    <div class="reference">(K)</div>
-                </div>
+      <div class="form-group">
+        <div class="label">Time made up from reduced interval (in minutes)</div>
+        <input type="number" id="madeUpTime" min="0">
+        <div class="reference">(E)</div>
+      </div>
 
-                <div class="form-group">
-                    <div class="label"> Rescheduled first innings cessation time [J + (K - B)] </div>
-                    <div class="input-container">
-                        <div class="calculated-value" id="rescheduledCessationTime"></div>
-                    </div>
-                    <div class="reference">(L)</div>
-                </div>
-                
-                <div class="form-group">
-                    <div class="label"> Length of interval </div>
-                    <div class="input-container">
-                        <div class="calculated-value" id="intervalLength">0</div>
-                    </div>
-                    <div class="reference">(M)</div>
-                </div>
+      <div class="form-group">
+        <div class="label">Effective playing time lost [C - (D + E)]</div>
+        <div class="calculated-value" id="effectiveTimeResult">0</div>
+        <div class="reference">(F)</div>
+      </div>
 
-                <div class="form-group">
-                    <div class="label"> Second innings commencement time [L + M] </div>
-                    <div class="input-container">
-                        <div class="calculated-value" id="commencementTime"></div>
-                    </div>
-                    <div class="reference">(N)</div>
-                </div>
-                
-                <div class="form-group">
-                    <div class="label"> Rescheduled second innings cessation time [N + K] </div>
-                    <div class="input-container">
-                        <div class="calculated-value" id="finalCessationTime"></div>
-                    </div>
-                    <div class="reference">(O)</div>
-                </div>
+      <div class="form-group">
+        <div class="label">Remaining playing time available [A - F]</div>
+        <div class="calculated-value" id="remainingTimeResult">0</div>
+        <div class="reference">(G)</div>
+      </div>
 
-                <div class="subtitle">
-                    Ensure that the match is not finishing earlier than the original or rescheduled cessation time by applying clause 13.7.2.
-                    If so, add at least one over to each team and recalculate (I) to (O) above to prevent this from happening.
-                </div>
-            
-            </div> 
-        </div>
+      <div class="form-group">
+        <div class="label">G divided by 4.25 (to 2 decimal places)</div>
+        <div class="calculated-value" id="remainingOversResult">0</div>
+        <div class="reference">(H)</div>
+      </div>
 
-        <div class="content">
-            
-            <div class="table-title">Table 2: Calculation sheet to check whether an interruption during the First Innings should terminate the innings</div>
-                            
-            <div class="calculator">
-                
-                <div class="form-group">
-                    <div class="label"> Proposed re-start time</div>
-                    <div class="input-container">
-                        <input type="time" id="restartTime" required>
-                    </div>
-                    <div class="reference">(P)</div>
-                </div>
-        
-                <div class="form-group">
-                    <div class="label">Rescheduled cut-off time allowing for full use of any extra time provision</div>
-                    <div class="input-container">
-                        <input type="time" id="cutOffTime" required>
-                    </div>
-                    <div class="reference">(Q)</div>
-                </div>
-        
-                <div class="form-group">
-                    <div class="label">Minutes between P and Q</div>
-                    <div class="input-container">
-                        <div class="calculated-value" id="minutesBetween">0</div>
-                    </div>
-                    <div class="reference">(R)</div>
-                </div>
-        
-                <div class="form-group">
-                    <div class="label">Potential overs to be bowled [R/4.25] (round up fractions)</div>
-                    <div class="input-container">
-                        <div class="calculated-value" id="potentialOvers">0</div>
-                    </div>
-                    <div class="reference">(S)</div>
-                </div>
-        
-                <div class="form-group">
-                    <div class="label">Number of complete overs faced to date in first innings</div>
-                    <div class="input-container">
-                        <input type="number" id="oversFaced" min="0" required>
-                    </div>
-                    <div class="reference">(T)</div>
-                </div>
+      <div class="form-group">
+        <div class="label">Max overs per team [H/2] (round up fractions)</div>
+        <div class="calculated-value" id="maxOverperteamResult">0</div>
+        <div class="reference">(I)</div>
+      </div>
 
-                <div class="subtitle">
-                    If S is greater than T then revert to Table 1. If S is less than or equal to T then the first innings is terminated - Go to Table 3
-                </div>
-            
-            </div>
-            
-            <div id="table2Result" class="subtitle" style="margin-top: 20px;"></div>
+      <div class="form-group">
+        <div class="label">Maximum overs per bowler [I/5]</div>
+        <div class="calculated-value" id="maxOverperBowlerResult"></div>
+        <div class="reference"></div>
+      </div>
 
-        </div>
+      <div class="form-group">
+        <div class="label">Number of Powerplay overs</div>
+        <div class="calculated-value" id="powerplayOversResult"></div>
+        <div class="reference"></div>
+      </div>
 
-        <div class="content">
+      <div class="subtitle"><u>Rescheduled Playing Hours</u></div>
 
-            <div class="table-title">Table 3: Calculation sheet for the start of the Second Innings</div>
-            
-            <div class="calculator">
+      <div class="form-group">
+        <div class="label">First session to commence or recommence (in hh:mm)</div>
+        <input type="time" id="recommenceTime">
+        <div class="reference">(J)</div>
+      </div>
 
-                <div class="subtitle"><u>Maximum overs to be bowled:</u></div>
-                
-                <div class="form-group">
-                    <div class="label">If first innings was terminated, S from Table 2</div>
-                    <div class="input-container">
-                        <input type="number" id="table2Overs" min="0" required>
-                    </div>
-                    <div class="reference">(A)</div>
-                </div>
+      <div class="form-group">
+        <div class="label">Length of innings [I * 4.25] (round up fractions)</div>
+        <div class="calculated-value" id="lengthInningsTime"></div>
+        <div class="reference">(K)</div>
+      </div>
 
-                <div class="form-group">
-                    <div class="label"> Scheduled length of innings: [A*4.25] (round up fractions)</div>
-                    <div class="input-container">
-                        <div class="calculated-value" id="scheduledLength"></div>
-                    </div>
-                    <div class="reference">(B)</div>
-                </div>
+      <div class="form-group">
+        <div class="label">Rescheduled first innings cessation time [J + (K - B)]</div>
+        <div class="calculated-value" id="rescheduledCessationTime"></div>
+        <div class="reference">(L)</div>
+      </div>
 
-                <div class="form-group">
-                    <div class="label"> Start time </div>
-                    <div class="input-container">
-                        <input type="time" id="startTime" required>
-                    </div>
-                    <div class="reference">(C)</div>
-                </div>
+      <div class="form-group">
+        <div class="label">Length of interval</div>
+        <div class="calculated-value" id="intervalLength">0</div>
+        <div class="reference">(M)</div>
+      </div>
 
-                <div class="form-group">
-                    <div class="label"> Scheduled cessation time [C + B]</div>
-                    <div class="input-container">
-                        <div class="calculated-value" id="cessationTime"></div>
-                    </div>
-                    <div class="reference">(D)</div>
-                </div>
+      <div class="form-group">
+        <div class="label">Second innings commencement time [L + M]</div>
+        <div class="calculated-value" id="commencementTime"></div>
+        <div class="reference">(N)</div>
+      </div>
 
-                <div class="subtitle"><u>Overs per bowler and Fielding Restrictions</u></div>
-            
-                <div class="form-group">
-                    <div class="label"> Maximum overs per bowler [A/5]</div>
-                    <div class="input-container">
-                        <div class="calculated-value" id="maxOversBowler"></div>
-                    </div>
-                </div>
+      <div class="form-group">
+        <div class="label">Rescheduled second innings cessation time [N + K]</div>
+        <div class="calculated-value" id="finalCessationTime"></div>
+        <div class="reference">(O)</div>
+      </div>
 
-                <div class="form-group">
-                    <div class="label"> Number of Powerplay overs</div>
-                    <div class="input-container">
-                        <div class="calculated-value" id="powerplayOvers"></div>
-                    </div>
-                </div> 
-            
-            </div>
-            
-        </div>
-
-        <div class="content">
-            
-            <div class="table-title">Table 4: Calculation sheet for use when interruption occurs after the start of the Second Innings</div>
-            
-            <div class="calculator">
-
-                <div class="subtitle"><u>Time</u></div>
-                
-                <div class="form-group">
-                    <div class="label"> Time at start of innings</div>
-                    <div class="input-container">
-                        <input type="time" id="startInningsTime" required>
-                    </div>
-                    <div class="reference">(A)</div>
-                </div>
-
-                <div class="form-group">
-                    <div class="label"> Time at start of interruption</div>
-                    <div class="input-container">
-                        <input type="time" id="startInterruptionTime" required>
-                    </div>
-                    <div class="reference">(B)</div>
-                </div>
-
-                <div class="form-group">
-                    <div class="label"> Time innings in progress (B-A)</div>
-                    <div class="input-container">
-                        <div class="calculated-value" id="inningsProgressTime"></div>
-                    </div>
-                    <div class="reference">(C)</div>
-                </div>
-
-                <div class="form-group">
-                    <div class="label"> Restart Time </div>
-                    <div class="input-container">
-                        <input type="time" id="restartTime2" required>
-                    </div>
-                    <div class="reference">(D)</div>
-                </div>
-
-                <div class="form-group">
-                    <div class="label"> Length of interruption (D-B)</div>
-                    <div class="input-container">
-                        <div class="calculated-value" id="lengthInterruption"></div>
-                    </div>
-                    <div class="reference">(E)</div>
-                </div>
-
-                <div class="form-group">
-                    <div class="label"> Additional time available: (Any unused provision for "Extra Time" or for earlier than scheduled start of second innings)</div>
-                    <div class="input-container">
-                        <input type="number" id="additionalTime" min="0" required>
-                    </div>
-                    <div class="reference">(F)</div>
-                </div>
-
-                <div class="form-group">
-                    <div class="label"> Total playing time lost (E - F)</div>
-                    <div class="input-container">
-                        <div class="calculated-value" id="totalTimeLost"></div>
-                    </div>
-                    <div class="reference">(G)</div>
-                </div> 
-
-                <div class="subtitle"><u>Overs</u></div>
-
-                <div class="form-group">
-                    <div class="label"> Maximum overs at start of innings</div>
-                    <div class="input-container">
-                        <input type="number" id="maxOvers" min="0" required>
-                    </div>
-                    <div class="reference">(H)</div>
-                </div>
-
-                <div class="form-group">
-                    <div class="label"> Overs lost [G/4.25] (rounded down)</div>
-                    <div class="input-container">
-                        <div class="calculated-value" id="oversLost"></div>
-                    </div>
-                    <div class="reference">(I)</div>
-                </div>
-
-                <div class="form-group">
-                    <div class="label">Adjusted maximum length of innings [H-I]</div>
-                    <div class="input-container">
-                        <div class="calculated-value" id="adjustedLength"></div>
-                    </div>
-                    <div class="reference">(J)</div>
-                </div>
-
-                <div class="form-group">
-                    <div class="label">Rescheduled length of innings [J*4.25] (rounded up)</div>
-                    <div class="input-container">
-                        <div class="calculated-value" id="rescheduledLength"></div>
-                    </div>
-                    <div class="reference">(K)</div>
-                </div>
-
-                <div class="form-group">
-                    <div class="label">Amended cessation time of innings [ D + (K - C)]</div>
-                    <div class="input-container">
-                        <div class="calculated-value" id="cessationTime2"></div>
-                    </div>
-                    <div class="reference">(L)</div>
-                </div>
-
-                <div class="subtitle"><u>Overs per bowler and Fielding Restrictions</u></div>
-
-                <div class="form-group">
-                    <div class="label"> Maximum overs per bowler [J/5]</div>
-                    <div class="input-container">
-                        <div class="calculated-value" id="maxOversBowler2"></div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="label"> Number of Powerplay overs</div>
-                    <div class="input-container">
-                        <div class="calculated-value" id="powerplayOvers2"></div>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-
-        <script src="script.js"></script>
-        
-    </body>
+      <div class="subtitle">
+        Ensure that the match is not finishing earlier than the original or rescheduled cessation time by applying clause 13.7.2. 
+        If so, add at least one over to each team and recalculate (I) to (O) above to prevent this from happening.
+      </div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
 </html>
